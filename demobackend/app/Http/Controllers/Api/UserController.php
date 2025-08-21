@@ -34,10 +34,12 @@ class UserController extends Controller
             'phone' => $validatedData['phone'],
         ]);
 
+        $token = $user->createToken('auth_token')->plainTextToken;
         // Return a success response
         return response()->json([
             'message' => 'User created successfully',
             'user' => $user,
+            'token' => $token,
         ], 201);
     }
 
@@ -64,28 +66,29 @@ class UserController extends Controller
         // Return a success response with the token
         return response()->json([
             'message' => 'Login successful',
+            'user' => $user,
             'token' => $token,
         ], 200);   
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
-        $user = auth()->user();
-        // Check if user is authenticated
+        $user = $request->user();
+
         if (!$user) {
             return response()->json([
                 'message' => 'User not authenticated',
             ], 401);
         }
 
-        // Revoke the user's token
-        $user->tokens()->delete();
+        // Xóa đúng token hiện tại thay vì tất cả
+        $user->currentAccessToken()->delete();
 
-        // Return a success response
         return response()->json([
             'message' => 'Logout successful',
         ], 200);
     }
+
 
     public function show(){
         // Find the user 
