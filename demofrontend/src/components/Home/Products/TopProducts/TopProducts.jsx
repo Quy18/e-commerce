@@ -9,7 +9,7 @@ const TopProducts = () => {
   // return from highest to lowest using times_bought
 
   let topProducts = store.state.products.sort(
-    (a, b) => b.times_bought - a.times_bought
+    (a, b) => b.stock - a.stock
   );
   return (
     <div className="sub-container">
@@ -18,7 +18,7 @@ const TopProducts = () => {
         {store.state.products.length > 0 ? (
           <div className="contains-product">
             {topProducts.map((product) => {
-              return <Product key={product._id} product={product}></Product>;
+              return <Product key={product.id} product={product}></Product>;
             })}
           </div>
         ) : (

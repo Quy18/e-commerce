@@ -1,47 +1,42 @@
 import { useReducer } from "react";
 
 const initialState = {
-  orders: [],
-  order_to_be_canceled: null,
+  carts: {},
+  items: [],
+  cartQuantity: 0,
 };
 
 const actions = Object.freeze({
-  GET_ORDERS: "GET_ORDERS",
-  GET_ORDER_TO_BE_CANCELED: "GET_ORDER_TO_BE_CANCELED",
+  GET_CARTS: "GET_CARTS",
 });
 
 const reducer = (state, action) => {
-  if (action.type == actions.GET_ORDERS) {
-    return { ...state, orders: action.orders };
+  if (action.type == actions.GET_CARTS) {
+    return { ...state, carts: action.carts, };
   }
 
-  if (action.type == actions.GET_ORDER_TO_BE_CANCELED) {
-    return { ...state, order_to_be_canceled: action.order_id };
-  }
   return state;
 };
 
-const useOrders = () => {
+const useCarts = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const getOrders = async (user_id) => {
-    const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/get-orders/${user_id}`,
+  const getCarts = async (user_id) => {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/cart`,
       {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("token")}`,
         },
-        mode: "cors",
-        credentials: "include",
       }
     );
 
-    const data = await response.json();
-    if (data.error) {
-      return data.error;
+    const result = await response.json();
+    if (result.error) {
+      return result.error;
     }
-    dispatch({ type: actions.GET_ORDERS, orders: data.orders });
+    dispatch({ type: actions.GET_CARTS, carts: result.data });
     return data.orders;
   };
 
@@ -75,7 +70,7 @@ const useOrders = () => {
     return data;
   };
 
-  return { state, getOrders, setOrderToBeCanceled, cancelOrder };
+  return { state, getCarts, setOrderToBeCanceled, cancelOrder };
 };
 
-export default useOrders;
+export default useCarts;

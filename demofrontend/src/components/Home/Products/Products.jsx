@@ -17,7 +17,7 @@ const Products = () => {
       {store.state.products.length > 0 ? (
         <div className="contains-product">
           {sortedProducts.map((product) => (
-            <Product key={product._id} product={product} />
+            <Product key={product.id} product={product} />
           ))}
         </div>
       ) : (

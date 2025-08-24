@@ -1,20 +1,20 @@
 import { createContext, useContext } from "react";
-import useStore from "../../store/products";
+import useProduct from "../../store/products";
 import useAuth from "../../store/auth";
 import useModal from "../../store/modal";
-import useOrders from "../../store/orders";
+import useCarts from "../../store/carts";
 
 const globalContext = createContext();
 
 export const useGlobalContext = () => useContext(globalContext);
 
 const GlobalContext = ({ children }) => {
-  const store = useStore();
+  const store = useProduct();
   const auth = useAuth();
   const modal = useModal();
-  const orders = useOrders();
+  const carts = useCarts();
   return (
-    <globalContext.Provider value={{ store, auth, modal, orders }}>
+    <globalContext.Provider value={{ store, auth, modal, carts }}>
       {children}
     </globalContext.Provider>
   );
