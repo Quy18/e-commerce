@@ -4,11 +4,15 @@ import { FaStar } from "react-icons/fa";
 import { useGlobalContext } from "@/components/GlobalContext/GlobalContext";
 import { toast } from "react-toastify";
 import { memo } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Product = ({ product }) => {
-  let {store} = useGlobalContext();
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate(`/product/${product.id}`);
+  }
   return (
-    <div className="product-container">
+    <div className="product-container" onClick={handleClick} style={{ cursor: 'pointer'}}>
       <div className="image">
         <img
           src={product?.product_image || headphones_pink}
@@ -29,8 +33,10 @@ const Product = ({ product }) => {
         <div>
             <button
               className="add-to-cart"
-              onClick={() => {
-                // chờ xử lý
+              onClick={(e) => {
+                e.stopPropagation(); // tránh trigger click 
+                // xử lý add-to-cart
+                
               }}
             >
               Add to Cart
