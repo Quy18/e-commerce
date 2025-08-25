@@ -10,7 +10,6 @@ const ProductDetail = () => {
     const { store } = useGlobalContext();
     const product = store.state.products.find((p) => p.id == id);
     if (!product) return <p>Product not found.</p>;
-    let quantity = 1;
     return (
         <div className="product-detail-container">
             <div className="product-detail-left">
@@ -36,14 +35,14 @@ const ProductDetail = () => {
                 <div className="product-detail-quantity">
                     <button
                         className="product-detail-quantity-decrease"
-                        onClick={{}}
+                        onClick={() => store.decreaseQuantity()}
                     >
                         -
                     </button>
-                    <span className="product-detail-quantity-value">{quantity}</span>
+                    <span className="product-detail-quantity-value">{store.state.quantity}</span>
                     <button
                         className="product-detail-quantity-increase"
-                        onClick={{}}
+                        onClick={() => store.increaseQuantity(product)}
                     >
                         +
                     </button>

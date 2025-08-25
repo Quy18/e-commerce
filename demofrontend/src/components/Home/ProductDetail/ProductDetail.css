@@ -71,3 +71,48 @@
   font-size: 14px;
   color: #777;
 }
+
+/*  */
+
+.product-detail-quantity {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0;
+    font-family: Arial, sans-serif;
+}
+
+.product-detail-quantity button {
+    width: 40px;
+    height: 40px;
+    background-color: #FF6600; /* màu cam nổi bật */
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.product-detail-quantity button:hover {
+    background-color: #e65c00;
+    transform: scale(1.05);
+}
+
+.product-detail-quantity button:active {
+    transform: scale(0.95);
+}
+
+.product-detail-quantity-value {
+    min-width: 40px;
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 8px 0;
+    background-color: #f9f9f9;
+}
+
