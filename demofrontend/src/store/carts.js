@@ -12,7 +12,10 @@ const actions = Object.freeze({
 
 const reducer = (state, action) => {
   if (action.type == actions.GET_CARTS) {
-    return { ...state, carts: action.carts, items: action.items, cartQuantity: action.cartQuantity};
+    return { ...state, carts: action.carts, items: action.items, cartQuantity: action.cartQuantity };
+  }
+  if ( action.type == actions.GET_PRODUCT_DETAIL) {
+    return { ...state, productDetail: action.productDetail};
   }
   return state;
 };
@@ -38,7 +41,25 @@ const useCarts = () => {
     dispatch({ type: actions.GET_CARTS, carts: result.data, items: result.items, cartQuantity: result.items.length });
   };
 
-  return { state, getCarts };
+  const getProductById = async (id) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/v1/products/${id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const result = await response.json();
+      if (result.error) {
+        return toast.error(result.error);
+      } else {
+        return result.data;
+      }
+    } catch (error) {
+      toast.error("Get product_by_id was problem.")
+    }
+  }
+  return { state, getCarts, getProductById };
 };
 
 export default useCarts;

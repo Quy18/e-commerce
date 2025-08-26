@@ -56,6 +56,7 @@ const useProduct = () => {
       return;
     }
     dispatch({ type: actions.INCREASE_QUANTITY});
+    return;
   };
 
   const decreaseQuantity = () =>{
