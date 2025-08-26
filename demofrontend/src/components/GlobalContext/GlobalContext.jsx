@@ -12,9 +12,9 @@ const GlobalContext = ({ children }) => {
   const store = useProduct();
   const auth = useAuth();
   const modal = useModal();
-  const carts = useCarts();
+  const cart = useCarts();
   return (
-    <globalContext.Provider value={{ store, auth, modal, carts }}>
+    <globalContext.Provider value={{ store, auth, modal, cart }}>
       {children}
     </globalContext.Provider>
   );

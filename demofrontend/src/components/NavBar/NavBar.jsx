@@ -25,7 +25,7 @@ const NavBar = () => {
         <button type="button" className="hamburger">
           <Hamburger
             size={20}
-            color="#fff"
+            color="#c51b1bff"
             toggle={handleHamClick}
             rounded
           ></Hamburger>

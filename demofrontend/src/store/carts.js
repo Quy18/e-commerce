@@ -12,17 +12,16 @@ const actions = Object.freeze({
 
 const reducer = (state, action) => {
   if (action.type == actions.GET_CARTS) {
-    return { ...state, carts: action.carts, };
+    return { ...state, carts: action.carts, items: action.items, cartQuantity: action.cartQuantity};
   }
-
   return state;
 };
 
 const useCarts = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const getCarts = async (user_id) => {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/cart`,
+  const getCarts = async () => {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/v1/cart`,
       {
         method: "GET",
         headers: {
@@ -36,41 +35,10 @@ const useCarts = () => {
     if (result.error) {
       return result.error;
     }
-    dispatch({ type: actions.GET_CARTS, carts: result.data });
-    return data.orders;
+    dispatch({ type: actions.GET_CARTS, carts: result.data, items: result.items, cartQuantity: result.items.length });
   };
 
-  const setOrderToBeCanceled = (order_id) => {
-    dispatch({ type: actions.GET_ORDER_TO_BE_CANCELED, order_id });
-  };
-
-  const cancelOrder = async (order_id) => {
-    const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/cancel-order`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        mode: "cors",
-        credentials: "include",
-        body: JSON.stringify({ order_id }),
-      }
-    );
-
-    const data = await response.json();
-
-    if (data.error) {
-      return data.error;
-    }
-
-    dispatch({ type: actions.GET_ORDER_TO_BE_CANCELED, order_id: null });
-    getOrders(data.user_id);
-
-    return data;
-  };
-
-  return { state, getCarts, setOrderToBeCanceled, cancelOrder };
+  return { state, getCarts };
 };
 
 export default useCarts;

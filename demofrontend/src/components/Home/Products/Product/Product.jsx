@@ -10,6 +10,7 @@ const Product = ({ product }) => {
   const navigate = useNavigate();
   const handleClick = () => {
     navigate(`/product/${product.id}`);
+    window.scrollTo(0, 0); 
   }
   return (
     <div className="product-container" onClick={handleClick} style={{ cursor: 'pointer'}}>

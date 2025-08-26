@@ -6,8 +6,8 @@ import "./Account.css";
 
 const Account = () => {
   // let { store } = useGlobalContext();
-  let { auth, store, modal } = useGlobalContext();
-  const cartTotal =  0;
+  let { auth, cart, modal } = useGlobalContext();
+  const cartTotal =  cart.state.cartQuantity;
 
   const handleShowModal = () => {
     modal.openModal(false);

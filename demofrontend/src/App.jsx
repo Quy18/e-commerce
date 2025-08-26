@@ -16,11 +16,14 @@ import RequestCookie from "./components/CookieBanner/CookieBanner";
 import ProductDetail from "./components/Home/ProductDetail/ProductDetail";
 
 function App() {
-  let { store } = useGlobalContext();
+  let { store, cart } = useGlobalContext();
   let { modal } = useGlobalContext();
   useEffect(() => {
     if (store.state.products.length > 0) return;
     store.getProducts();
+    if (localStorage.getItem("token") != null){
+      cart.getCarts();
+    }
   }, []);
   return (
     <div>
