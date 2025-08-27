@@ -6,10 +6,10 @@ import { useEffect, useState } from "react";
 const OrderDetails = ({ product }) => {
   const {cart, store} = useGlobalContext();
   const [ productDetail, setProductDetail] = useState(null);
-
+  console.log(product);
   useEffect(() => {
     const fetchProduct = async () => {
-      const data = await cart.getProductById(product.id);
+      const data = await cart.getProductById(product.product_id);
       setProductDetail(data);
     };
     fetchProduct();
