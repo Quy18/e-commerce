@@ -14,6 +14,7 @@ const Account = () => {
   };
 
   const handleLogout = () => {
+    cart.resetCart();
     auth.logout();
   };
 

@@ -8,14 +8,15 @@ const initialState = {
 
 const actions = Object.freeze({
   GET_CARTS: "GET_CARTS",
+  RESET_CART: "RESET_CART",
 });
 
 const reducer = (state, action) => {
   if (action.type == actions.GET_CARTS) {
     return { ...state, carts: action.carts, items: action.items, cartQuantity: action.cartQuantity };
   }
-  if ( action.type == actions.GET_PRODUCT_DETAIL) {
-    return { ...state, productDetail: action.productDetail};
+  if ( action.type == actions.RESET_CART) {
+    return { ...state, carts: action.carts, items: action.items, cartQuantity: action.cartQuantity };
   }
   return state;
 };
@@ -59,7 +60,11 @@ const useCarts = () => {
       toast.error("Get product_by_id was problem.")
     }
   }
-  return { state, getCarts, getProductById };
+
+  const resetCart = () => {
+    dispatch({ type: actions.RESET_CART, carts: {}, items: [], cartQuantity: 0 });
+  }
+  return { state, getCarts, getProductById, resetCart };
 };
 
 export default useCarts;

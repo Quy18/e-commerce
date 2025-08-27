@@ -6,7 +6,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { useState } from "react";
 
 const Modal = ({ header, submitAction, buttonText, isRegister }) => {
-  const { auth } = useGlobalContext();
+  const { auth, cart } = useGlobalContext();
   const { modal } = useGlobalContext();
   let [loading, setLoading] = useState(false);
   const handleClose = () => {
@@ -55,6 +55,7 @@ const Modal = ({ header, submitAction, buttonText, isRegister }) => {
         .login(data)
         .then(() => {
           modal.closeModal();
+          cart.getCarts();
         })
         .finally(() => {
           setLoading(false);

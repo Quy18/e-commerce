@@ -21,9 +21,6 @@ function App() {
   useEffect(() => {
     if (store.state.products.length > 0) return;
     store.getProducts();
-    if (localStorage.getItem("token") != null){
-      cart.getCarts();
-    }
   }, []);
   return (
     <div>
