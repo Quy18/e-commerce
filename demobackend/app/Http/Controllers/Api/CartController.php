@@ -76,6 +76,9 @@ class CartController extends Controller
             ]);
         }
 
+        // Lấy toàn bộ chi tiết giỏ hàng
+        $cartItems = CartItem::where('cart_id', $cart->id)->get();
+
         // Cập nhật tổng giá trị giỏ hàng
         $cart->total_price += $price * $request->quantity;
         $cart->save();
@@ -83,7 +86,7 @@ class CartController extends Controller
         return response()->json([
             'message' => 'Item added to cart successfully',
             'cart' => $cart,
-            'item' => $cartItem,
+            'items' => $cartItems,
         ], 201);
     }
 

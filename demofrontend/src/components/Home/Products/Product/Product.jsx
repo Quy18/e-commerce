@@ -7,6 +7,7 @@ import { memo } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Product = ({ product }) => {
+  const {store} = useGlobalContext();
   const navigate = useNavigate();
   const handleClick = () => {
     navigate(`/product/${product.id}`);
@@ -37,7 +38,7 @@ const Product = ({ product }) => {
               onClick={(e) => {
                 e.stopPropagation(); // tránh trigger click 
                 // xử lý add-to-cart
-                
+                store.addProductToCart(product.id, 1);
               }}
             >
               Add to Cart

@@ -9,13 +9,14 @@ const initialState = {
 const actions = Object.freeze({
   GET_CARTS: "GET_CARTS",
   RESET_CART: "RESET_CART",
+
 });
 
 const reducer = (state, action) => {
   if (action.type == actions.GET_CARTS) {
     return { ...state, carts: action.carts, items: action.items, cartQuantity: action.cartQuantity };
   }
-  if ( action.type == actions.RESET_CART) {
+  if (action.type == actions.RESET_CART) {
     return { ...state, carts: action.carts, items: action.items, cartQuantity: action.cartQuantity };
   }
   return state;
@@ -40,6 +41,13 @@ const useCarts = () => {
       return result.error;
     }
     dispatch({ type: actions.GET_CARTS, carts: result.data, items: result.items, cartQuantity: result.items.length });
+    
+    // Lưu giỏ hàng vào localStorage
+    localStorage.setItem("cart", JSON.stringify({
+      carts: result.data,
+      items: result.items,
+      cartQuantity: result.items.length,
+    }));
   };
 
   const getProductById = async (id) => {
@@ -61,8 +69,18 @@ const useCarts = () => {
     }
   }
 
+  
+
   const resetCart = () => {
     dispatch({ type: actions.RESET_CART, carts: {}, items: [], cartQuantity: 0 });
+  }
+
+  const increaseQuantity = (async) => {
+    // conse response = await fetch(`${import.meta.env.VITE_API_URL}/v1`)
+  }
+
+  const decreaseQuantity = (async) => {
+
   }
   return { state, getCarts, getProductById, resetCart };
 };

@@ -101,6 +101,7 @@ const useAuth = () => {
       } else {
         localStorage.removeItem("user");
         localStorage.removeItem("token");
+        localStorage.removeItem("cart");
         dispatch({ type: actions.LOGOUT });
         toast.success(result.message || "Logout success!");
       }

@@ -16,8 +16,8 @@ import RequestCookie from "./components/CookieBanner/CookieBanner";
 import ProductDetail from "./components/Home/ProductDetail/ProductDetail";
 
 function App() {
-  let { store, cart } = useGlobalContext();
-  let { modal } = useGlobalContext();
+  let { store, modal, cart } = useGlobalContext();
+
   useEffect(() => {
     if (store.state.products.length > 0) return;
     store.getProducts();

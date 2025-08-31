@@ -47,7 +47,9 @@ const ProductDetail = () => {
                         +
                     </button>
                 </div>
-                <button className="product-detail-add-cart">Add to Cart</button>
+                <button className="product-detail-add-cart" onClick={() => {
+                    store.addProductToCart(id, store.state.quantity);
+                }}>Add to Cart</button>
 
                 <div className="product-detail-extra">
                     <p><strong>Stock:</strong> {product.stock}</p>

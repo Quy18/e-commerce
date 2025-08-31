@@ -3,11 +3,19 @@ import { FaShoppingCart } from "react-icons/fa";
 import { useGlobalContext } from "@/components/GlobalContext/GlobalContext";
 import { Link } from "react-router-dom";
 import "./Account.css";
+import { useEffect } from "react";
 
 const Account = () => {
   // let { store } = useGlobalContext();
   let { auth, cart, modal } = useGlobalContext();
-  const cartTotal =  cart.state.cartQuantity;
+
+  useEffect(() => {
+    if(localStorage.getItem("token")){
+      cart.getCarts();
+    }
+  }, []);
+
+  const cartTotal = cart.state.cartQuantity;
 
   const handleShowModal = () => {
     modal.openModal(false);
