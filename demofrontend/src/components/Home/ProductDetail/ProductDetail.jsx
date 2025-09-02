@@ -7,7 +7,7 @@ import "./ProductDetail.css";
 
 const ProductDetail = () => {
     const { id } = useParams();
-    const { store } = useGlobalContext();
+    const { store, cart } = useGlobalContext();
     const product = store.state.products.find((p) => p.id == id);
     if (!product) return <p>Product not found.</p>;
     return (
@@ -48,7 +48,7 @@ const ProductDetail = () => {
                     </button>
                 </div>
                 <button className="product-detail-add-cart" onClick={() => {
-                    store.addProductToCart(id, store.state.quantity);
+                    cart.addProductToCart(id, store.state.quantity);
                 }}>Add to Cart</button>
 
                 <div className="product-detail-extra">

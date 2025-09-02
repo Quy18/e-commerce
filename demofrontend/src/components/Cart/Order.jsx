@@ -16,11 +16,11 @@ const Order = () => {
         </div>
         <div className="order-container">
           {(cart.state.items.length > 0 &&
-            cart.state.items.map((product) => {
+            cart.state.items.map((productInCart) => {
               return (
                 <OrderDetails
-                  key={product.id}
-                  product={product}
+                  key={productInCart.id}
+                  product={productInCart}
                 ></OrderDetails>
               );
             })) || <EmptyState></EmptyState>}

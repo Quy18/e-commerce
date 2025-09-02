@@ -4,9 +4,10 @@ import { useGlobalContext } from "@/components/GlobalContext/GlobalContext";
 import { useEffect, useState } from "react";
 
 const OrderDetails = ({ product }) => {
-  const {cart, store} = useGlobalContext();
+  const {cart} = useGlobalContext();
   const [ productDetail, setProductDetail] = useState(null);
-  console.log(cart);
+  const [numProduct, setNumProduct] = useState(product.quantity);
+
   useEffect(() => {
     const fetchProduct = async () => {
       const data = await cart.getProductById(product.product_id);
@@ -36,15 +37,16 @@ const OrderDetails = ({ product }) => {
         <div className="increase-quantity">
           <button
             onClick={() => {
-              store.reduceQuantity(product.id);
+              setNumProduct(numProduct - 1);
+              cart.increaseQuantity(product.product_id, numProduct);
             }}
           >
             -
           </button>
-          <p>{product.quantity}</p>
+          <p>{numProduct}</p>
           <button
             onClick={() => {
-              store.addQuantity(product.id);
+              setNumProduct(numProduct + 1);
             }}
           >
             +
@@ -54,7 +56,7 @@ const OrderDetails = ({ product }) => {
       <div className="remove">
         <button
           onClick={() => {
-            store.removeFromCart(product?.id);
+            cart.removeItemFromCart(product.product_id);
           }}
         >
           Remove

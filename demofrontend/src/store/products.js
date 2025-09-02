@@ -67,41 +67,11 @@ const useProduct = () => {
     dispatch({ type: actions.DECREASE_QUANTITY });
   }
 
-  const addProductToCart = async (id, quantityProduct) => {
-    const payload = {
-      product_id: id,
-      quantity: quantityProduct,
-    };
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/v1/cart/add`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify(payload),
-      });
-
-      const request = await response.json();
-
-      localStorage.setItem("cart", JSON.stringify({
-        carts: request.cart,
-        items: request.items,
-        cartQuantity: request.items.length,
-      }));
-      toast.success(request.message);
-    } catch (error) {
-      toast.error("Have a problem when you added item in cart.");
-    }
-
-  }
-
   return {
     state,
     getProducts,
     increaseQuantity,
     decreaseQuantity,
-    addProductToCart,
   };
 };
 
