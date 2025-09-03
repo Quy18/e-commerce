@@ -126,7 +126,7 @@ const useCarts = () => {
     dispatch({ type: actions.RESET_CART, carts: {}, items: [], cartQuantity: 0 });
   }
 
-  const increaseQuantity = async (pro_id, quantity) => {
+  const decreaseQuantity = async (pro_id, quantity) => {
     const payload = {
       product_id: pro_id,
       quantity: quantity,
@@ -154,7 +154,32 @@ const useCarts = () => {
     }
   }
 
-  const decreaseQuantity = async () => {
+  const increaseQuantity = async (pro_id, quantity) => {
+    const payload = {
+      product_id: pro_id,
+      quantity: quantity,
+    }
+    
+    try{
+      const respone = await fetch(`${import.meta.env.VITE_API_URL}/v1/cart/update`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const request = await respone.json();
+      if(request.error){
+        toast.error("Have a problem.");
+      }else{
+        getCarts();
+        toast.success(request.message);
+      }
+    }catch(error){
+      toast.error("Have a problem when you update item in cart.");
+    }
 
   }
   return { 

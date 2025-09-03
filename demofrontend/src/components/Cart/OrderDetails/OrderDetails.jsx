@@ -2,10 +2,11 @@ import "./OrderDetails.css";
 import headphones_pink from "@/assets/images/airpods_max_pink.jpg";
 import { useGlobalContext } from "@/components/GlobalContext/GlobalContext";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const OrderDetails = ({ product }) => {
-  const {cart} = useGlobalContext();
-  const [ productDetail, setProductDetail] = useState(null);
+  const { cart } = useGlobalContext();
+  const [productDetail, setProductDetail] = useState(null);
   const [numProduct, setNumProduct] = useState(product.quantity);
 
   useEffect(() => {
@@ -27,6 +28,7 @@ const OrderDetails = ({ product }) => {
         <div className="right-side">
           <h3>{productDetail.name}</h3>
           <p>{productDetail.description}</p>
+          <p>Stock: {productDetail.stock}</p>
         </div>
       </div>
       <div className="order-price">
@@ -37,9 +39,10 @@ const OrderDetails = ({ product }) => {
         <div className="increase-quantity">
           <button
             onClick={() => {
-              setNumProduct(numProduct - 1);
-              // chỉnh lại hàm tăng giảm sản phẩm trong giỏ (khả năng là ở backend hơn)
-              cart.increaseQuantity(product.product_id, numProduct);
+              // xử lý bất đồng bộ vì setNumProduct chỉ lên lịch cho state ở request sau
+              const newNumProduct = numProduct - 1;
+              setNumProduct(newNumProduct);
+              cart.decreaseQuantity(product.product_id, newNumProduct);
             }}
           >
             -
@@ -47,8 +50,16 @@ const OrderDetails = ({ product }) => {
           <p>{numProduct}</p>
           <button
             onClick={() => {
-              setNumProduct(numProduct + 1);
+              // xử lý bất đồng bộ vì setNumProduct chỉ lên lịch cho state ở request sau
+              const newNumProduct = numProduct + 1;
+              if (newNumProduct <= productDetail.stock) {
+                setNumProduct(newNumProduct);
+                cart.decreaseQuantity(product.product_id, newNumProduct);
+              }else{
+                toast.error("Vượt quá số lượng trong kho");
+              }
             }}
+            disabled={numProduct >= productDetail.stock}
           >
             +
           </button>
