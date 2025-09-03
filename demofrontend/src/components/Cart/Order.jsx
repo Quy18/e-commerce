@@ -28,7 +28,7 @@ const Order = () => {
       </div>
       <div className="order-summary">
         <h2>Order Summary</h2>
-        {/* <OrderSummary></OrderSummary> */}
+        <OrderSummary></OrderSummary>
       </div>
     </div>
   );

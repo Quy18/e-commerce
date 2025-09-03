@@ -4,7 +4,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 
 const OrderSummary = () => {
-  const { store, modal, auth } = useGlobalContext();
+  const { store, modal, auth, cart } = useGlobalContext();
   const [deliveryType, setDeliveryType] = useState("Standard");
   const [phone, setPhone] = useState("");
   const setDelivery = (type) => {
@@ -31,8 +31,8 @@ const OrderSummary = () => {
       <div className="sub-container">
         <div className="contains-order">
           <div className="total-cost">
-            <h4>Total Items ({store.state.cartQuantity})</h4>
-            <h4>${store.state.cartTotal}</h4>
+            <h4>Total Items ({cart.state.cartQuantity})</h4>
+            <h4>${cart.state.carts.total_price}</h4>
           </div>
           <div className="shipping">
             <h4>Shipping</h4>
@@ -56,7 +56,7 @@ const OrderSummary = () => {
               <input className="select-dropdown" type="text" />
               <button
                 className="flat-button apply-promo"
-                disabled={store.state.cartQuantity > 0 ? false : true}
+                disabled={cart.state.cartQuantity > 0 ? false : true}
               >
                 Apply
               </button>
@@ -81,8 +81,8 @@ const OrderSummary = () => {
             <h4>Total Cost</h4>
             <h4>
               ${" "}
-              {store.state.cart.length > 0
-                ? store.state.cartTotal + (deliveryType == "Standard" ? 5 : 10)
+              {cart.state.items.length > 0
+                ? (Number(cart.state.carts.total_price) + (deliveryType == "Standard" ? 5.00 : 10.00)).toFixed(2)
                 : 0}
             </h4>
           </div>
@@ -91,13 +91,13 @@ const OrderSummary = () => {
               className="flat-button checkout"
               onClick={() => {
                 if (phone.length > 0) {
-                  checkOut();
+                  // checkOut();
                   toast.info("Your order is being processed");
                   return;
                 }
                 toast.error("Please enter your phone number");
               }}
-              disabled={store.state.cartQuantity > 0 ? false : true}
+              disabled={cart.state.cartQuantity > 0 ? false : true}
             >
               Checkout
             </button>
