@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useGlobalContext } from "@/components/GlobalContext/GlobalContext";
 import headphones_pink from "@/assets/images/airpods_max_pink.jpg";
@@ -7,9 +7,13 @@ import "./ProductDetail.css";
 
 const ProductDetail = () => {
     const { id } = useParams();
-    const { store, cart } = useGlobalContext();
+    const {store, cart} = useGlobalContext();
+
     const product = store.state.products.find((p) => p.id == id);
     if (!product) return <p>Product not found.</p>;
+
+    const [numProduct, setNumProduct] = useState(1);
+
     return (
         <div className="product-detail-container">
             <div className="product-detail-left">
@@ -35,20 +39,28 @@ const ProductDetail = () => {
                 <div className="product-detail-quantity">
                     <button
                         className="product-detail-quantity-decrease"
-                        onClick={() => store.decreaseQuantity()}
+                        onClick={() => {
+                            const newNumProduct = numProduct - 1;
+                            setNumProduct(newNumProduct);
+                        }}
+                        disabled={numProduct <= 1}
                     >
                         -
                     </button>
-                    <span className="product-detail-quantity-value">{store.state.quantity}</span>
+                    <span className="product-detail-quantity-value">{numProduct}</span>
                     <button
                         className="product-detail-quantity-increase"
-                        onClick={() => store.increaseQuantity(product)}
+                        onClick={() => {
+                            const newNumProduct = numProduct + 1;
+                            setNumProduct(newNumProduct);
+                        }}
+                        disabled={numProduct >= product.stock}
                     >
                         +
                     </button>
                 </div>
                 <button className="product-detail-add-cart" onClick={() => {
-                    cart.addProductToCart(id, store.state.quantity);
+                    cart.addProductToCart(id, numProduct);
                 }}>Add to Cart</button>
 
                 <div className="product-detail-extra">
