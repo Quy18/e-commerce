@@ -18,13 +18,21 @@ class CartController extends Controller
         $cart = Cart::where('user_id', auth()->id())->first();
         
         if (!$cart) {
-            return response()->json(['message' => 'Cart is empty'], 404);
+            return response()->json([
+                'message' => 'Cart is empty',
+                'data' => null,
+                'items' => [],
+            ], 200);
         }
 
         $cartItems = CartItem::where('cart_id', $cart->id)->get();
 
         if ($cartItems->isEmpty()) {
-            return response()->json(['message' => 'No items in cart'], 404);
+            return response()->json([
+                'message' => 'No items in cart',
+                'data' => $cart,
+                'items' => [],
+            ], 200);
         }
 
         return response()->json([

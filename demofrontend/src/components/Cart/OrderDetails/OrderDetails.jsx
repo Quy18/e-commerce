@@ -38,6 +38,7 @@ const OrderDetails = ({ product }) => {
           <button
             onClick={() => {
               setNumProduct(numProduct - 1);
+              // chỉnh lại hàm tăng giảm sản phẩm trong giỏ (khả năng là ở backend hơn)
               cart.increaseQuantity(product.product_id, numProduct);
             }}
           >

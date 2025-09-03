@@ -97,7 +97,6 @@ const useCarts = () => {
   }
 
   const removeItemFromCart = async (id) => {
-    console.log(id);
     try {
       const payload = {
         product_id: id,
