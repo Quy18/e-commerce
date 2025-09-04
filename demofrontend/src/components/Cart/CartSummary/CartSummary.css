@@ -63,36 +63,6 @@
   justify-content: space-between;
 }
 
-.enter-promo * {
-  display: block;
-  margin: 1rem 0;
-}
-
-.flat-button {
-  border: none;
-  color: #fff;
-  background-color: #ff8b15;
-  padding: 0.5rem 1.5em;
-  border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.flat-button:hover {
-  background-color: #fc8005;
-}
-
-.apply-promo {
-  background-color: #fa7474;
-}
-
-.apply-promo:hover {
-  background-color: #ff3e3e;
-}
 
 .checkout {
   padding: 0.8rem 1.5rem;

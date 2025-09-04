@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import "./Order.css";
-import OrderDetail  from "./OrderDetail/OrderDetail";
+import OrderDetail from "./OrderDetail/OrderDetail";
 import { useGlobalContext } from "../GlobalContext/GlobalContext";
 
 const Order = () => {
   const { auth, cart } = useGlobalContext();
+  const [deliveryType, setDeliveryType] = useState("Standard");
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -12,7 +13,9 @@ const Order = () => {
     note: "",
     payment: "cod",
   });
-
+  const setDelivery = (type) => {
+    setDeliveryType(type);
+  };
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -57,7 +60,7 @@ const Order = () => {
           </select>
 
           <button type="submit" className="submit-btn">
-            Xác nhận đặt hàng
+            Buy Now
           </button>
         </form>
 
@@ -74,12 +77,37 @@ const Order = () => {
               );
             })) || <p>No products available</p>}
           <h2>Shipping</h2>
-          <div className="summary-item">
-
+          <select
+            className="select-dropdown"
+            onChange={(item) => {
+              setDelivery(item.target.value);
+            }}
+          >
+            <option value="Standard" className="select">
+              Standard
+            </option>
+            <option value="Express" className="select">
+              Express
+            </option>
+          </select>
+          <div className="promo-code">
+            <h2>Promo Code</h2>
+            <div className="enter-promo">
+              <input className="select-dropdown" type="text" />
+              <button
+                className="flat-button apply-promo"
+                disabled={cart.state.cartQuantity > 0 ? false : true}
+              >
+                Apply
+              </button>
+            </div>
           </div>
           <div className="summary-total">
             <span>Tổng cộng:</span>
-            <span>${cart.state.carts.total_price}</span>
+            <span>${" "}
+              {cart.state.items.length > 0
+                ? (Number(cart.state.carts.total_price) + (deliveryType == "Standard" ? 5.00 : 10.00)).toFixed(2)
+                : 0}</span>
           </div>
         </div>
       </div>
