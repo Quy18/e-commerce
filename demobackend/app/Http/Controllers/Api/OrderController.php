@@ -10,11 +10,13 @@ use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\User;
 use App\Models\Product;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
     // This method will handle all of the orders of the user
-    public function index(){
+    public function index()
+    {
         $orders = Order::where('user_id', auth()->id())->get();
         if ($orders->isEmpty()) {
             return response()->json([
@@ -28,7 +30,8 @@ class OrderController extends Controller
     }
 
     // Xem chi tiết đơn hàng 
-    public function showOrderDetails($id){
+    public function showOrderDetails($id)
+    {
         $order = Order::where('user_id', auth()->id())->where('id', $id)->first();
 
         if (!$order) {
@@ -55,61 +58,65 @@ class OrderController extends Controller
     }
 
     // Tạo đơn hàng mới trong giỏ hàng
-    public function createOrderWithCart(Request $request){
+    public function createOrderWithCart(Request $request)
+    {
         $request->validate([
             'cart_id' => 'required|exists:carts,id',
         ]);
 
-        $cart = Cart::where('user_id', auth()->id())->where('id', $request->cart_id)->first();
+        return DB::transaction(function () use ($request) {
+            $cart = Cart::where('user_id', auth()->id())->where('id', $request->cart_id)->first();
 
-        if (!$cart) {
-            return response()->json([
-                'message' => 'Cart not found',
-            ], 404);
-        }
+            if (!$cart) {
+                return response()->json([
+                    'message' => 'Cart not found',
+                ], 404);
+            }
 
-        $cartItems = CartItem::where('cart_id', $cart->id)->get();
+            $cartItems = CartItem::where('cart_id', $cart->id)->get();
 
-        if ($cartItems->isEmpty()) {
-            return response()->json([
-                'message' => 'Cart is empty',
-            ], 400);
-        }
+            if ($cartItems->isEmpty()) {
+                return response()->json([
+                    'message' => 'CartItem is empty',
+                ], 400);
+            }
 
-        $user = User::find(auth()->id());
+            $user = User::find(auth()->id());
 
-        $order = Order::create([
-            'user_id' => auth()->id(),
-            'total_amount' => $cart->total_price,
-            'shipping_address' => $user->address,
-        ]);
-
-        foreach ($cartItems as $item) {
-            OrderItem::create([
-                'order_id' => $order->id,
-                'product_id' => $item->product_id,
-                'quantity' => $item->quantity,
-                'price' => $item->price,
+            $order = Order::create([
+                'user_id' => auth()->id(),
+                'total_amount' => $cart->total_price,
+                'shipping_address' => $user->address,
             ]);
-        }
 
-        $orderItems = OrderItem::where('order_id', $order->id)->get();
+            foreach ($cartItems as $item) {
+                OrderItem::create([
+                    'order_id' => $order->id,
+                    'product_id' => $item->product_id,
+                    'quantity' => $item->quantity,
+                    'price' => $item->price,
+                ]);
+            }
 
-        // Clear the cart after creating the order
-        CartItem::where('cart_id', $cart->id)->delete();
+            $orderItems = OrderItem::where('order_id', $order->id)->get();
 
-        // Clear the cart
-        Cart::where('id', $cart->id)->delete();
+            // Clear the cart item after creating the order
+            CartItem::where('cart_id', $cart->id)->delete();
 
-        return response()->json([
-            'message' => 'Order created successfully',
-            'data' => $order,
-            'items' => $orderItems,
-        ], 201);
+            // Clear the cart
+            Cart::where('id', $cart->id)->delete();
+
+            return response()->json([
+                'message' => 'Order created successfully',
+                'data' => $order,
+                'items' => $orderItems,
+            ], 201);
+        });
     }
 
     // Tạo trực tiếp đơn hàng mới
-    public function createOrderDirect(Request $request){
+    public function createOrderDirect(Request $request)
+    {
         $request->validate([
             'product_id' => 'required|exists:products,id',
             'quantity' => 'required|integer|min:1',

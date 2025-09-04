@@ -15,7 +15,7 @@ const OrderSummary = () => {
       DeliveryType: deliveryType,
       DeliveryTypeCost: deliveryType == "Standard" ? 5 : 10,
       costAfterDelieveryRate:
-        store.state.cartTotal + (deliveryType == "Standard" ? 5 : 10),
+        store.state.cartTotal  + (deliveryType == "Standard" ? 5 : 10),
       promoCode: "",
       phoneNumber: phone,
       user_id: auth.state.user?.id,
@@ -91,7 +91,7 @@ const OrderSummary = () => {
               className="flat-button checkout"
               onClick={() => {
                 if (phone.length > 0) {
-                  // checkOut();
+                  checkOut();
                   toast.info("Your order is being processed");
                   return;
                 }

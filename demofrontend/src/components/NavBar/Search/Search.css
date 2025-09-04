@@ -1,10 +1,26 @@
+
+.search {
+  width: 100%;
+  /* container chiếm hết chiều ngang */
+  padding: 10px;
+  /* khoảng cách trong container */
+  display: flex;
+  /* căn giữa nếu muốn */
+  justify-content: center;
+  /* căn giữa input trong container */
+}
+
 .search input {
-  width: 300px;
+  width: 100%;
+  max-width: 300px;
+  /* không vượt quá 300px */
   padding: 10px 15px;
   border: 1px solid #ccc;
   border-radius: 25px;
   outline: none;
   font-size: 14px;
+  box-sizing: border-box;
+  /* tránh tràn layout */
 }
 
 .search input:focus {
