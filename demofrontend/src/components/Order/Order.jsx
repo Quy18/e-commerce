@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import "./Order.css";
 import OrderDetail from "./OrderDetail/OrderDetail";
 import { useGlobalContext } from "../GlobalContext/GlobalContext";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Order = () => {
-  const { auth, cart } = useGlobalContext();
+  const { auth, cart, order } = useGlobalContext();
+  const navigate = useNavigate();
   const [deliveryType, setDeliveryType] = useState("Standard");
   const [formData, setFormData] = useState({
     name: "",
@@ -20,10 +23,18 @@ const Order = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+    // ngăn refresh khi submit
     e.preventDefault();
-    alert("Đơn hàng đã được tạo!");
-    console.log(formData, cartItems, total);
+    if (!cart.state.carts?.id) {
+      toast.error("There aren't products in the cart.");
+      return;
+    }
+    const result = await order.createOrder(cart.state.carts.id);
+    if(result && result.success){
+      await cart.getCarts();
+      navigate("/order/success");
+    }
   };
 
   return (

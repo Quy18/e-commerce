@@ -1,11 +1,9 @@
 import "./CartSummary.css";
 import { useGlobalContext } from "@/components/GlobalContext/GlobalContext";
-import { useState } from "react";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const CartSummary = () => {
-  const { store, modal, auth, cart } = useGlobalContext();
+  const { cart } = useGlobalContext();
   const navigate = useNavigate();
   const checkOut = () => {
     navigate("/order");
