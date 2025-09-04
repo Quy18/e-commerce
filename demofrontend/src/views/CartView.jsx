@@ -1,10 +1,10 @@
-import Order from "../components/Cart/Order";
+import Cart from "../components/Cart/Cart";
 
 const CartView = () => {
   return (
     <div>
       <main>
-        <Order></Order>
+        <Cart></Cart>
       </main>
     </div>
   );

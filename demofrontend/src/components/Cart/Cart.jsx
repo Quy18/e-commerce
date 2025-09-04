@@ -1,36 +1,36 @@
-import OrderDetails from "./OrderDetails/OrderDetails";
-import OrderSummary from "./OrderSummary/OrderSummary";
+import CartDetails from "./CartDetails/CartDetails";
+import CartSummary from "./CartSummary/CartSummary";
 import EmptyState from "./EmptyState/EmptyState";
 import { useGlobalContext } from "@/components/GlobalContext/GlobalContext";
 
-import "./Order.css";
+import "./Cart.css";
 
-const Order = () => {
+const Cart = () => {
   let { cart } = useGlobalContext();
   return (
     <div className="main-order-container">
       <div className="view-order">
         <div className="order-title">
-          <h2>Order</h2>
+          <h2>Cart</h2>
           <h2>{cart.state.cartQuantity} Items</h2>
         </div>
         <div className="order-container">
           {(cart.state.items.length > 0 &&
             cart.state.items.map((productInCart) => {
               return (
-                <OrderDetails
+                <CartDetails
                   key={productInCart.id}
                   product={productInCart}
-                ></OrderDetails>
+                ></CartDetails>
               );
             })) || <EmptyState></EmptyState>}
         </div>
       </div>
       <div className="order-summary">
-        <h2>Order Summary</h2>
-        <OrderSummary></OrderSummary>
+        <h2>Cart Summary</h2>
+        <CartSummary></CartSummary>
       </div>
     </div>
   );
 };
-export default Order;
+export default Cart;

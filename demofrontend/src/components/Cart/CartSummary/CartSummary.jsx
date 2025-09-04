@@ -1,9 +1,9 @@
-import "./OrderSummary.css";
+import "./CartSummary.css";
 import { useGlobalContext } from "@/components/GlobalContext/GlobalContext";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-const OrderSummary = () => {
+const CartSummary = () => {
   const { store, modal, auth, cart } = useGlobalContext();
   const [deliveryType, setDeliveryType] = useState("Standard");
   const [phone, setPhone] = useState("");
@@ -107,4 +107,4 @@ const OrderSummary = () => {
     </div>
   );
 };
-export default OrderSummary;
+export default CartSummary;

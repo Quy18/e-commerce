@@ -1,10 +1,10 @@
-import "./OrderDetails.css";
+import "./CartDetails.css";
 import headphones_pink from "@/assets/images/airpods_max_pink.jpg";
 import { useGlobalContext } from "@/components/GlobalContext/GlobalContext";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-const OrderDetails = ({ product }) => {
+const CartDetails = ({ product }) => {
   const { cart } = useGlobalContext();
   const [productDetail, setProductDetail] = useState(null);
   const [numProduct, setNumProduct] = useState(product.quantity);
@@ -77,4 +77,4 @@ const OrderDetails = ({ product }) => {
     </div>
   );
 };
-export default OrderDetails;
+export default CartDetails;
