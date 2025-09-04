@@ -1,0 +1,179 @@
+.order-container {
+  background-color: #f9fafb;
+  min-height: 100vh;
+  padding: 1rem;
+  font-family: Arial, sans-serif;
+}
+
+/* Header */
+.order-header {
+  background-color: #f97316;
+  padding: 1rem;
+  display: flex;
+  flex-wrap: wrap; /* Cho phép xuống dòng khi màn hình nhỏ */
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  border-radius: 12px;
+  gap: 1rem;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+.search-input {
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  border: none;
+  flex: 1; /* Tự co giãn theo không gian còn lại */
+  min-width: 150px; /* Không quá nhỏ trên mobile */
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logout-btn {
+  background-color: white;
+  color: #f97316;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.logout-btn:hover {
+  background-color: #ffe0cc;
+}
+
+/* Main layout */
+.order-main {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .order-main {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+/* Form */
+.order-form {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.order-form h2 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.order-form input,
+.order-form textarea,
+.order-form select {
+  border: 1px solid #ccc;
+  padding: 0.75rem;
+  border-radius: 8px;
+  width: 100%;
+  margin-top: 0.75rem;
+}
+
+.submit-btn {
+  background-color: #f97316;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1.5rem;
+  width: 100%;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background-color: #ea580c;
+}
+
+/* Summary */
+.order-summary {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.order-summary h2 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #eee;
+  padding: 0.75rem 0;
+  flex-wrap: wrap; /* Cho phép xuống dòng nếu chữ dài */
+}
+
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  font-size: 1.125rem;
+  margin-top: 1rem;
+}
+
+/* User info */
+.user-info {
+  margin-bottom: 20px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column; /* Mặc định mobile: xuống dòng */
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+@media (min-width: 640px) {
+  .info-item {
+    flex-direction: row; /* Tablet trở lên: nằm ngang */
+    align-items: center;
+  }
+}
+
+.info-item label {
+  font-weight: bold;
+  min-width: 100px; /* Dùng min-width thay vì width cố định */
+  margin-right: 40px;
+}
+
+.info-item span {
+  color: #333;
+  flex: 1;
+}

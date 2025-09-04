@@ -2,29 +2,17 @@ import "./CartSummary.css";
 import { useGlobalContext } from "@/components/GlobalContext/GlobalContext";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const CartSummary = () => {
   const { store, modal, auth, cart } = useGlobalContext();
   const [deliveryType, setDeliveryType] = useState("Standard");
-  const [phone, setPhone] = useState("");
+  const navigate = useNavigate();
   const setDelivery = (type) => {
     setDeliveryType(type);
   };
-  const checkOut = async () => {
-    let payload = {
-      DeliveryType: deliveryType,
-      DeliveryTypeCost: deliveryType == "Standard" ? 5 : 10,
-      costAfterDelieveryRate:
-        store.state.cartTotal  + (deliveryType == "Standard" ? 5 : 10),
-      promoCode: "",
-      phoneNumber: phone,
-      user_id: auth.state.user?.id,
-    };
-
-    const response = await store.confirmOrder(payload);
-    if (response.showRegisterLogin) {
-      modal.openModal();
-    }
+  const checkOut = () => {
+    navigate("/order");
   };
   return (
     <div className="is-order-summary">
@@ -62,21 +50,6 @@ const CartSummary = () => {
               </button>
             </div>
           </div>
-          <div className="promo-code">
-            <h4>Phone Number</h4>
-            <input
-              className="select-dropdown"
-              type="text"
-              onChange={(item) => {
-                setPhone(item.target.value);
-              }}
-            />
-            <small>
-              <em style={{ color: "#ff2100" }}>
-                Your number would be called to verify the order placement
-              </em>
-            </small>
-          </div>
           <div className="final-cost">
             <h4>Total Cost</h4>
             <h4>
@@ -90,12 +63,7 @@ const CartSummary = () => {
             <button
               className="flat-button checkout"
               onClick={() => {
-                if (phone.length > 0) {
-                  checkOut();
-                  toast.info("Your order is being processed");
-                  return;
-                }
-                toast.error("Please enter your phone number");
+                checkOut();
               }}
               disabled={cart.state.cartQuantity > 0 ? false : true}
             >

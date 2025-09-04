@@ -1,13 +1,14 @@
 import { FaShoppingCart } from "react-icons/fa";
 
 import { useGlobalContext } from "@/components/GlobalContext/GlobalContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Account.css";
 import { useEffect } from "react";
 
 const Account = () => {
   // let { store } = useGlobalContext();
   let { auth, cart, modal } = useGlobalContext();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if(localStorage.getItem("token")){
@@ -24,6 +25,7 @@ const Account = () => {
   const handleLogout = () => {
     cart.resetCart();
     auth.logout();
+    navigate("/");
   };
 
   return (

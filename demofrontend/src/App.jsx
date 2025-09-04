@@ -5,6 +5,7 @@ import ShopFooter from "@/components/Footer/ShopFooter";
 import ErrorView from "./views/ErrorView";
 import CartView from "./views/CartView";
 import DeliveryView from "./views/DeliveryView";
+import OrderView from "./views/OrderView";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useEffect } from "react";
 import { useGlobalContext } from "@/components/GlobalContext/GlobalContext";
@@ -32,6 +33,7 @@ function App() {
           <Route path="/" element={<HomeView />} />
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/cart" element={<CartView />} />
+          <Route path="/order" element={<OrderView />} />
           <Route path="/delivery" element={<DeliveryView />} />
           <Route path="*" element={<ErrorView />} />
         </Routes>
