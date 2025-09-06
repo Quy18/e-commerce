@@ -37,7 +37,7 @@ class OrderController extends Controller
         if (!$order) {
             return response()->json([
                 'message' => 'Order not found',
-            ], 404);
+            ], 200);
         }
 
         $orderItems = OrderItem::where('order_id', $order->id)->get();
@@ -45,7 +45,7 @@ class OrderController extends Controller
         if ($orderItems->isEmpty()) {
             return response()->json([
                 'message' => 'No items found for this order',
-            ], 404);
+            ], 200);
         }
 
         return response()->json([

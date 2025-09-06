@@ -7,16 +7,16 @@ import Skeleton from "react-loading-skeleton";
 import { toast } from "react-toastify";
 
 const DeliveryView = () => {
-  const { orders, auth, modal } = useGlobalContext();
+  const { order, auth, modal } = useGlobalContext();
   const [loadingOrders, setLoadingOrders] = useState(false);
   const [disabled, setDisabled] = useState(false);
   useEffect(() => {
     if (auth.state.user) {
       setLoadingOrders(true);
-      if (orders.state.orders.length <= 0) {
-        orders.getOrders(auth.state.user.id);
+      if (order.state.orders.length <= 0) {
+        order.getOrders(auth.state.user.id);
       }
-      if (orders.state.orders.length > 0) {
+      if (order.state.orders.length > 0) {
         setLoadingOrders(false);
       }
     } else {
@@ -27,7 +27,7 @@ const DeliveryView = () => {
   const reloadOrders = async () => {
     setDisabled(true);
     toast.info("Reloading orders...");
-    await orders.getOrders(auth.state.user.id);
+    await order.getOrders();
     setDisabled(false);
     toast.success("Orders reloaded!");
   };
@@ -47,12 +47,14 @@ const DeliveryView = () => {
               Reload Orders
             </button>
           </div>
-          {(orders.state.orders.length > 0 &&
-            orders.state.orders.map((order) => {
-              return (
-                <DeliveryItem key={order._id} order={order}></DeliveryItem>
-              );
-            })) || <Skeleton height={500}></Skeleton>}
+          {(order.state.orders.length > 0 &&
+            order.state.orders
+              .sort((a, b) => b.id - a.id)
+              .map((order) => {
+                return (
+                  <DeliveryItem key={order.id} orders={order}></DeliveryItem>
+                );
+              })) || <Skeleton height={500}></Skeleton>}
         </div>
       )}
     </div>

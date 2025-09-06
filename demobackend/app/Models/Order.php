@@ -27,7 +27,6 @@ class Order extends Model
      * @var array<int, string>
      */
     protected $hidden = [
-        'created_at',
         'updated_at',
     ];
     public function user()
@@ -36,6 +35,6 @@ class Order extends Model
     }
     public function orderItems()
     {
-        return $this->hasMany(OrderItem::class);
+        return $this->hasMany(OrderItem::class, 'order_id');
     }
 }
