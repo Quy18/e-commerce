@@ -39,10 +39,14 @@ const useOrder = () => {
             toast.error("Have a problem");
         }
     };
-    const createOrder = async (cartId) => {
+
+    const createOrder = async (cartId, deliveryType, totalPayment) => {
         const payload = {
             cart_id: cartId,
+            shipping_method: deliveryType.toLowerCase(),
+            total_payment: totalPayment,
         }
+        
         try {
             const response = await fetch(`${import.meta.env.VITE_API_URL}/v1/orders/create`, {
                 method: "POST",
@@ -65,6 +69,7 @@ const useOrder = () => {
             return { success: false, error };
         }
     }
+
     const getItemFromOrder = async (orders_id) => {
         try {
             const response = await fetch(`${import.meta.env.VITE_API_URL}/v1/orders/${orders_id}`, {

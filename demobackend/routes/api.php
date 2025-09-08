@@ -26,7 +26,7 @@ Route::prefix('v1')->group(function () {
     Route::post('/login', [ApiUserController::class, 'login'])->name('users.login');
 
     // Authentication routes
-    Route::middleware('auth:sanctum')->group(function(){
+    Route::middleware('auth:sanctum')->group(function () {
         // User profile routes
         Route::post('/logout', [ApiUserController::class, 'logout'])->name('users.logout');
         Route::get('/users', [ApiUserController::class, 'show'])->name('users.show');
@@ -55,5 +55,5 @@ Route::prefix('v1')->group(function () {
     Route::get('/products', [ApiProductController::class, 'index'])->name('products.index');
     Route::get('/products/search', [ApiProductController::class, 'search'])->name('products.search');
     Route::get('/products/{id}', [ApiProductController::class, 'show'])->name('products.show');
-    
+
 });

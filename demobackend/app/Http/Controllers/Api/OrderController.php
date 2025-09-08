@@ -62,6 +62,8 @@ class OrderController extends Controller
     {
         $request->validate([
             'cart_id' => 'required|exists:carts,id',
+            'shipping_method'=> 'required|string|in:standard,express',
+            'total_payment' => 'required|numeric|min:0',
         ]);
 
         return DB::transaction(function () use ($request) {
@@ -82,10 +84,12 @@ class OrderController extends Controller
             }
 
             $user = User::find(auth()->id());
-
+            
             $order = Order::create([
                 'user_id' => auth()->id(),
+                'shipping_method' => $request->shipping_method,
                 'total_amount' => $cart->total_price,
+                'total_payment' => $request->total_payment,
                 'shipping_address' => $user->address,
             ]);
 
@@ -135,6 +139,7 @@ class OrderController extends Controller
         $order = Order::create([
             'user_id' => auth()->id(),
             'total_amount' => $product->price * $request->quantity,
+            'total_payment' => ($product->price * $request->quantity) + 5,
             'shipping_address' => $user->address,
         ]);
 
@@ -142,7 +147,7 @@ class OrderController extends Controller
             'order_id' => $order->id,
             'product_id' => $product->id,
             'quantity' => $request->quantity,
-            'price' => $product->price,
+            'price' => $product->price * $request->quantity,
         ]);
 
         return response()->json([

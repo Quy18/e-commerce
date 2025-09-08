@@ -14,9 +14,10 @@ use Illuminate\Support\Facades\DB;
 class CartController extends Controller
 {
     // Show the user's cart
-    public function show(){
+    public function show()
+    {
         $cart = Cart::where('user_id', auth()->id())->first();
-        
+
         if (!$cart) {
             return response()->json([
                 'message' => 'Cart is empty',
@@ -25,7 +26,13 @@ class CartController extends Controller
             ], 200);
         }
 
-        $cartItems = CartItem::where('cart_id', $cart->id)->get();
+        // $cartItems = CartItem::where('cart_id', $cart->id)->get();
+        $cartItems = CartItem::where('cart_id', $cart->id)
+            ->whereHas('product', function ($query) {
+                $query->whereNull('deleted_at'); // chỉ lấy sản phẩm chưa bị xóa mềm
+            })
+            ->with('product') // load luôn product để trả về
+            ->get();
 
         if ($cartItems->isEmpty()) {
             return response()->json([
@@ -43,7 +50,8 @@ class CartController extends Controller
     }
 
     // Create a new cart item
-    public function createCart(){
+    public function createCart()
+    {
         $cart = Cart::find(auth()->id());
         if (!$cart) {
             Cart::create(['user_id' => auth()->id()]);
@@ -53,14 +61,22 @@ class CartController extends Controller
     }
 
     // Add an item to the cart
-    public function addItem(Request $request) {
+    public function addItem(Request $request)
+    {
         $request->validate([
             'product_id' => 'required|exists:products,id',
             'quantity' => 'required|integer|min:1',
         ]);
 
-        $price = Product::find($request->product_id)->price;
+        $product = Product::findOrFail($request->product_id);
 
+        if ($product->trashed()) {
+            return response()->json([
+                'message' => 'Product is no longer available',
+            ], 400);
+        }
+
+        $price = $product->price;
         // Tìm hoặc tạo giỏ hàng
         $cart = Cart::firstOrCreate(['user_id' => auth()->id()]);
 
@@ -85,10 +101,16 @@ class CartController extends Controller
         }
 
         // Lấy toàn bộ chi tiết giỏ hàng
-        $cartItems = CartItem::where('cart_id', $cart->id)->get();
+        $cartItems = CartItem::where('cart_id', $cart->id)
+            ->whereHas('product', function ($q) {
+                $q->whereNull('deleted_at');
+            })
+            ->with('product')
+            ->get();
+
 
         // Cập nhật tổng giá trị giỏ hàng
-        $cart->total_price += $price * $request->quantity;
+        $cart->total_price = CartItem::where('cart_id', $cart->id)->sum('price');
         $cart->save();
 
         return response()->json([
@@ -99,13 +121,14 @@ class CartController extends Controller
     }
 
     // Remove an item from the cart
-    public function removeItem(Request $request){
+    public function removeItem(Request $request)
+    {
         $request->validate([
             'product_id' => 'required|exists:products,id',
         ]);
 
         $cart = Cart::where('user_id', auth()->id())->first();
-        
+
         if (!$cart) {
             return response()->json(['message' => 'Cart not found'], 404);
         }
@@ -129,12 +152,13 @@ class CartController extends Controller
         ], 200);
     }
 
-    public function updateItem(Request $request) {
+    public function updateItem(Request $request)
+    {
         $request->validate([
             'product_id' => 'required|exists:products,id',
             'quantity' => 'required|integer|min:0',
         ]);
-        
+
         $cart = Cart::where('user_id', auth()->id())->first();
 
         if (!$cart) {
