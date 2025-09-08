@@ -30,7 +30,7 @@ const DeliveryItem = ({ orders }) => {
       return percentage_complete = 0;
     } else if (status === "pending") {
       return percentage_complete = 30;
-    } else if (status === "shipped") {
+    } else if (status === "shipping") {
       return percentage_complete = 70;
     } else if (status === "completed") {
       return percentage_complete = 100;
@@ -41,7 +41,7 @@ const DeliveryItem = ({ orders }) => {
   const checkFlair = (status) => {
     if (status === "cancelled") {
       return "flair danger-flair";
-    } else if (status === "shipped" || status === "pending") {
+    } else if (status === "shipping" || status === "pending") {
       return "flair warning-flair";
     } else {
       return "flair success-flair";

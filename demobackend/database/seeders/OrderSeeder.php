@@ -14,19 +14,19 @@ class OrderSeeder extends Seeder
     public function run(): void
     {
         //
-        Order::insert([
-            [
-                'user_id' => 1,
-                'total_amount' => 250.00,
-                'status' => 'pending',
-                'shipping_address' => '123 Main St, City, Country',
-            ],
-            [
-                'user_id' => 2,
-                'total_amount' => 450.00,
-                'status' => 'completed',
-                'shipping_address' => '456 Elm St, City, Country',
-            ]
+        Order::create([
+            'user_id' => 1,
+            'total_amount' => 250.00,
+            'total_payment' => 255.00,
+            'shipping_address' => '123 Main St, City, Country',
         ]);
+          Order::create([
+            'user_id' => 2,
+            'status' => 'completed',
+            'shipping_method' => 'express',
+            'total_amount' => 450.00,
+            'total_payment' => 460.00,
+            'shipping_address' => '456 Elm St, City, Country',
+          ]);
     }
 }

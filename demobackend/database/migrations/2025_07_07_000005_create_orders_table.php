@@ -15,10 +15,15 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->enum('status', ['pending', 'shipped', 'completed', 'cancelled'])->default('pending');
+            $table->enum('status', ['pending', 'confirmed', 'shipping', 'completed', 'cancelled'])->default('pending');
+            $table->enum('shipping_method', ['standard','express'])->default('standard');
+            $table->enum('payment_status', ['unpaid','paid','refunded'])->default('unpaid');
             $table->decimal('total_amount', 10, 2);
-            $table->text('shipping_address')->nullable();
+            $table->boolean('is_promo')->default(false);
+            $table->decimal('total_payment',10,2);
+            $table->text('shipping_address');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

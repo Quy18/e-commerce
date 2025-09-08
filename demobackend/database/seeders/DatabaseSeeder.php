@@ -16,10 +16,11 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             CategorySeeder::class,
             ProductSeeder::class,
-            OrderSeeder::class,
-            OrderItemSeeder::class,
             CartSeeder::class,
             CartItemSeeder::class,
+            OrderSeeder::class,
+            OrderItemSeeder::class,
+            OrderLogSeeder::class,
         ]);
     }
 }

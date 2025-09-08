@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\OrderItem;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     /**
      * The attributes that are mass assignable.
      *
@@ -17,8 +18,12 @@ class Order extends Model
      */
     protected $fillable = [
         'user_id',
-        'total_amount',
         'status',
+        'shipping_method',
+        'payment_status',
+        'total_amount',
+        'is_promo',
+        'total_payment',
         'shipping_address',
     ]; 
     /**
