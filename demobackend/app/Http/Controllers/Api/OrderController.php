@@ -62,7 +62,7 @@ class OrderController extends Controller
     {
         $request->validate([
             'cart_id' => 'required|exists:carts,id',
-            'shipping_method'=> 'required|string|in:standard,express',
+            'shipping_method' => 'required|string|in:standard,express',
             'total_payment' => 'required|numeric|min:0',
         ]);
 
@@ -84,7 +84,7 @@ class OrderController extends Controller
             }
 
             $user = User::find(auth()->id());
-            
+
             $order = Order::create([
                 'user_id' => auth()->id(),
                 'shipping_method' => $request->shipping_method,
@@ -155,5 +155,26 @@ class OrderController extends Controller
             'data' => $order,
             'item' => $orderItem,
         ], 201);
+    }
+
+    public function deleteOrder(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|exists:orders,id',
+        ]);
+
+        $user_id = auth()->id();
+
+        $order = Order::where('id', $request->id)->where('user_id', $user_id)->first();
+        if (!$order) {
+            return response()->json([
+                'message' => 'Order doesnt exist',
+            ], 404);
+        }else{
+            $order->delete();
+            return response()->json([
+                'message'=> 'Delete order complete',
+            ],200);
+        }
     }
 }

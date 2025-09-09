@@ -6,24 +6,20 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { useState } from "react";
 
 const CancelOrder = () => {
-  const { modal, orders, auth } = useGlobalContext();
+  const { modal, order, auth } = useGlobalContext();
   let [loading, setLoading] = useState(false);
   const handleClose = () => {
     modal.closeCancelModal();
   };
   const submitForm = (e) => {
-    console.log("attempting to cancel order");
     e.preventDefault();
     setLoading(true);
-    const order_to_be_cancelled = orders.state.order_to_be_canceled;
-    orders
+    const order_to_be_cancelled = modal.order_cancel_id;
+    order
       .cancelOrder(order_to_be_cancelled)
       .then(() => {
-        toast.success(
-          `Order #${order_to_be_cancelled.slice(0, 6)} has been canceled`
-        );
         // get new orders
-        orders.getOrders(auth.state.user.id);
+        order.getOrders();
         handleClose();
       })
       .catch(() => {
@@ -32,8 +28,6 @@ const CancelOrder = () => {
       .finally(() => {
         setLoading(false);
       });
-    // submit cancel order here
-    // close modal here
   };
   return (
     <div className="modal-container">

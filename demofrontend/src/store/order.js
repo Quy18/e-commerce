@@ -46,7 +46,7 @@ const useOrder = () => {
             shipping_method: deliveryType.toLowerCase(),
             total_payment: totalPayment,
         }
-        
+
         try {
             const response = await fetch(`${import.meta.env.VITE_API_URL}/v1/orders/create`, {
                 method: "POST",
@@ -80,7 +80,7 @@ const useOrder = () => {
                 },
             });
             const request = await response.json();
-            if(request.error){
+            if (request.error) {
                 toast.error("Call api have problem.");
                 return null;
             }
@@ -90,11 +90,43 @@ const useOrder = () => {
             return null;
         }
     }
+
+    const cancelOrder = async (orderId) => {
+        const payload = {
+            id: orderId,
+        }
+        try {
+            try {
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/v1/order/delete`, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                    },
+                    body: JSON.stringify(payload),
+                });
+                const request = await response.json();
+                if (request.error) {
+                    toast.error("Call api have problem.");
+                    return null;
+                }
+                toast.success(request.message);
+                return;
+            } catch (error) {
+                toast.error("Have a problem.");
+                return null;
+            }
+        } catch (error) {
+            toast.error("Have a problem");
+            return;
+        }
+    }
     return {
         state,
         createOrder,
         getOrders,
         getItemFromOrder,
+        cancelOrder,
     };
 };
 

@@ -27,8 +27,10 @@ const DeliveryItem = ({ orders }) => {
 
   const setPercentageComplete = (status) => {
     if (status === "cancelled") {
-      return percentage_complete = 0;
+      return percentage_complete = null;
     } else if (status === "pending") {
+      return percentage_complete = 0;
+    } else if (status === "confirmed"){
       return percentage_complete = 30;
     } else if (status === "shipping") {
       return percentage_complete = 70;
@@ -41,7 +43,7 @@ const DeliveryItem = ({ orders }) => {
   const checkFlair = (status) => {
     if (status === "cancelled") {
       return "flair danger-flair";
-    } else if (status === "shipping" || status === "pending") {
+    } else if (status === "shipping" || status === "pending" || status === "confirmed") {
       return "flair warning-flair";
     } else {
       return "flair success-flair";
@@ -53,8 +55,10 @@ const DeliveryItem = ({ orders }) => {
       return "Order Cancelled";
     } else if (status === "pending") {
       return "Verification Pending";
-    } else if (status === "shipped") {
-      return "Verified & In Delivery";
+    } else if (status === "confirmed") {
+      return "Order Confirmed";
+    } else if (status === "shipping") {
+      return "Delivering";
     } else {
       return "Delivered";
     }
@@ -63,8 +67,7 @@ const DeliveryItem = ({ orders }) => {
   const { modal, order, cart } = useGlobalContext();
 
   const handleOpenCancelModal = (order_id) => {
-    modal.openCancelModal();
-    orders.setOrderToBeCanceled(order_id);
+    modal.openCancelModal(order_id);
   };
   const [items, setItems] = useState(null);
   useEffect(() => {
@@ -154,7 +157,7 @@ const DeliveryItem = ({ orders }) => {
               })}
             </div>
           </div>
-          {orders.order_processed != true && orders.order_cancelled != true && (
+          {orders.status !== "shipping" && orders.updated_at != null && (
             <div className="danger-zone">
               <h3 className="danger-zone-text">Danger Zone</h3>
               <div className="danger-zone-buttons">

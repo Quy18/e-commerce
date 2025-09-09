@@ -4,6 +4,7 @@ const initialState = {
   opened: false,
   isRegister: false,
   isCancelModal: false,
+  order_cancel_id: null,
 };
 
 const actions = Object.freeze({
@@ -23,11 +24,11 @@ const reducer = (state, action) => {
   }
 
   if (action.type == actions.OPEN_CANCEL_MODAL) {
-    return { ...state, isCancelModal: true };
+    return { ...state, isCancelModal: true, order_cancel_id: action.order_cancel_id };
   }
 
   if (action.type == actions.CLOSE_CANCEL_MODAL) {
-    return { ...state, isCancelModal: false };
+    return { ...state, isCancelModal: false, order_cancel_id: null };
   }
 
   return state;
@@ -45,8 +46,8 @@ const useModal = () => {
     dispatch({ type: actions.CLOSE_MODAL });
   };
 
-  const openCancelModal = () => {
-    dispatch({ type: actions.OPEN_CANCEL_MODAL });
+  const openCancelModal = (order_id) => {
+    dispatch({ type: actions.OPEN_CANCEL_MODAL, order_cancel_id: order_id });
   };
 
   const closeCancelModal = () => {

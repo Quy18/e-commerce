@@ -18,7 +18,7 @@ import ProductDetail from "./components/Home/ProductDetail/ProductDetail";
 import OrderSuccess from "./components/Order/OrderSuccess/OrderSuccess";
 
 function App() {
-  let { store, modal, cart } = useGlobalContext();
+  let { store, modal } = useGlobalContext();
 
   useEffect(() => {
     if (store.state.products.length > 0) return;

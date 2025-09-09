@@ -25,6 +25,7 @@ class Order extends Model
         'is_promo',
         'total_payment',
         'shipping_address',
+        'updated_at',
     ]; 
     /**
      * The attributes that should be hidden for serialization.
@@ -32,7 +33,7 @@ class Order extends Model
      * @var array<int, string>
      */
     protected $hidden = [
-        'updated_at',
+        
     ];
     public function user()
     {

@@ -12,7 +12,7 @@ const OrderSuccess = ({ orderId }) => {
         </p>
         <p className="order-status">Trạng thái: <b>Đang chờ xử lý</b></p>
 
-        <a href={`/orders/${orderId}`} className="view-order-btn">
+        <a href={`/delivery`} className="view-order-btn">
           Xem chi tiết đơn hàng
         </a>
       </div>
