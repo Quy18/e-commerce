@@ -21,7 +21,7 @@ class OrderController extends Controller
         if ($orders->isEmpty()) {
             return response()->json([
                 'message' => 'No orders found for this user',
-            ], 404);
+            ], 200);
         }
         return response()->json([
             'message' => 'Orders retrieved successfully',
@@ -32,7 +32,7 @@ class OrderController extends Controller
     // Xem chi tiết đơn hàng 
     public function showOrderDetails($id)
     {
-        $order = Order::where('user_id', auth()->id())->where('id', $id)->first();
+        $order = Order::withTrashed()->where('user_id', auth()->id())->where('id', $id)->first();
 
         if (!$order) {
             return response()->json([
@@ -176,5 +176,18 @@ class OrderController extends Controller
                 'message'=> 'Delete order complete',
             ],200);
         }
+    }
+
+    public function showOrderDeleted(){
+        $orders = Order::onlyTrashed()->where('user_id', auth()->id())->get();
+        if ($orders->isEmpty()) {
+            return response()->json([
+                'message' => 'No orders found for this user',
+            ], 200);
+        }
+        return response()->json([
+            'message' => 'Orders retrieved successfully',
+            'data' => $orders,
+        ], 200);
     }
 }

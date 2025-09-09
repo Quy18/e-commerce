@@ -1,10 +1,12 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { useGlobalContext } from "../components/GlobalContext/GlobalContext";
 import { useEffect, useState } from "react";
 import DeliveryEmpty from "../components/Delivery/DeliveryEmpty/DeliveryEmpty";
 import DeliveryItem from "../components/Delivery/DeliveryItem/DeliveryItem";
 import Skeleton from "react-loading-skeleton";
 import { toast } from "react-toastify";
+import OrderEmpty from "@/components/Order/OrderEmpty/OrderEmpty";
 
 const DeliveryView = () => {
   const { order, auth, modal } = useGlobalContext();
@@ -13,10 +15,10 @@ const DeliveryView = () => {
   useEffect(() => {
     if (auth.state.user) {
       setLoadingOrders(true);
-      if (order.state.orders.length <= 0) {
+      if (order.state.orders?.length <= 0) {
         order.getOrders(auth.state.user.id);
       }
-      if (order.state.orders.length > 0) {
+      if (order.state.orders?.length > 0) {
         setLoadingOrders(false);
       }
     } else {
@@ -46,15 +48,17 @@ const DeliveryView = () => {
             >
               Reload Orders
             </button>
+            {/* chuyển tới trang đơn hàng đã xóa */}
+            <Link to="/deleted_orders" className="btn-rounded ml-2">Show order deleted</Link>
           </div>
-          {(order.state.orders.length > 0 &&
+          {(order.state.orders?.length > 0 &&
             order.state.orders
               .sort((a, b) => b.id - a.id)
               .map((order) => {
                 return (
                   <DeliveryItem key={order.id} orders={order}></DeliveryItem>
                 );
-              })) || <Skeleton height={500}></Skeleton>}
+              })) || <OrderEmpty height={500}></OrderEmpty>}
         </div>
       )}
     </div>

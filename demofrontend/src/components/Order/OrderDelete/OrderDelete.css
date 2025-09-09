@@ -1,0 +1,44 @@
+.order-header {
+  display: flex;
+  justify-content: space-between; /* trái: title, phải: button */
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #fefefe;
+  flex-wrap: wrap; /* cho phép xuống dòng nếu màn hình nhỏ */
+}
+
+.order-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: rgb(255, 255, 255);
+}
+
+.btn-rounded {
+  padding: 6px 14px;
+  font-size: 14px;
+  background-color: white;
+  color: #ffffff;
+  border-radius: 20px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  white-space: nowrap; /* tránh bị gãy chữ */
+}
+
+.btn-rounded:hover {
+  background-color: #ffe6cc;
+}
+
+/* responsive cho mobile */
+@media (max-width: 600px) {
+  .order-header {
+    flex-direction: column;     /* xuống dòng */
+    align-items: flex-start;    /* căn trái */
+  }
+
+  .btn-rounded {
+    margin-top: 8px;            /* cách ra một chút */
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+}

@@ -121,12 +121,34 @@ const useOrder = () => {
             return;
         }
     }
+
+    const getOrdersDeleted = async () => {
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/v1/orders/delete`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                },
+            })
+            const request = await response.json();
+            if (request.error) {
+                toast.error("Have a problem when you call api.");
+            } else {
+                return request.data;
+            }
+        } catch (error) {
+            toast.error("Have a problem");
+            return null;
+        }
+    }
     return {
         state,
         createOrder,
         getOrders,
         getItemFromOrder,
         cancelOrder,
+        getOrdersDeleted,
     };
 };
 

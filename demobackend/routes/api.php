@@ -41,6 +41,7 @@ Route::prefix('v1')->group(function () {
 
         // Order routes
         Route::get('/orders', [ApiOrderController::class, 'index'])->name('orders.index');
+        Route::get('/orders/delete', [ApiOrderController::class, 'showOrderDeleted'])->name('orders.delete.show');
         Route::get('/orders/{id}', [ApiOrderController::class, 'showOrderDetails'])->name('orders.show');
         Route::post('/orders/create', [ApiOrderController::class, 'createOrderWithCart'])->name('orders.create');
         Route::post('/orders/create-direct', [ApiOrderController::class, 'createOrderDirect'])->name('orders.createDirect');
