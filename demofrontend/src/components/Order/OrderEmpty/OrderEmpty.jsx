@@ -9,7 +9,7 @@ const OrderEmpty = () => {
         <p className="order-empty-text">
           Looks like you haven’t placed any orders.
         </p>
-        <Link to="/products" className="btn-rounded">
+        <Link to="/" className="btn-rounded">
           Shop Now
         </Link>
       </div>
