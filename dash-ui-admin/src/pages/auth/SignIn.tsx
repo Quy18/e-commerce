@@ -13,7 +13,7 @@ const SignIn = () => {
         <Card className="smooth-shadow-md">
           <Card.Body className="p-6">
             <div className="mb-4">
-              <Link to="/">
+              <Link to="">
                 <Image
                   src="/images/brand/logo/logo-primary.svg"
                   className="mb-2"
@@ -40,7 +40,7 @@ const SignIn = () => {
                   <Form.Control
                     type="password"
                     name="password"
-                    placeholder="**************"
+                    placeholder="********"
                     required
                   />
                 </Form.Group>

@@ -1,5 +1,6 @@
 //import node module libraries
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 //import routes files
 import AuthenticationLayout from "layouts/AuthenticationLayout";
@@ -53,8 +54,12 @@ const App = () => {
       errorElement: <NotFound />,
       children: [
         {
+          index: true, // mặc định khi path="/" 
+          element: <Navigate to="/auth/sign-in" replace />,
+        },
+        {
           id: "dashboard",
-          path: "/",
+          path: "/dashboard",
           Component: Dashboard,
         },
         {
@@ -133,7 +138,7 @@ const App = () => {
     {
       id: "auth",
       path: "/auth",
-      Component: AuthenticationLayout,
+      // Component: AuthenticationLayout,
       children: [
         {
           id: "sign-in",
