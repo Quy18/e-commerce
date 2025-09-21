@@ -1,3 +1,72 @@
+// 🔹 Kiểu dữ liệu User
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  token?: string;
+}
+
+// 🔹 Auth
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface LoginResponse {
+  user: User;
+  token: string;
+}
+
+export interface RegisterRequest {
+  name: string;
+  email: string;
+  password: string;
+}
+
+export interface RegisterResponse {
+  user: User;
+  token: string;
+}
+
+// 🔹 Product
+export interface Product {
+  id: number;
+  name: string;
+  price: number;
+  image: string;
+  description?: string;
+}
+
+// 🔹 Cart
+export interface CartItem {
+  product: Product;
+  quantity: number;
+}
+
+// 🔹 Order
+export interface Order {
+  id: number;
+  user: User;
+  items: CartItem[];
+  total: number;
+  status: "pending" | "paid" | "shipped" | "completed" | "cancelled";
+  createdAt: string;
+}
+
+export interface AuthContextType {
+  user: User | null;
+  token: string | null;
+  loginUser: (data: LoginRequest) => Promise<void>;
+  registerUser: (data: RegisterRequest) => Promise<void>;
+  logoutUser: () => void;
+}
+
+// 🔹 Global Context (gom nhiều store)
+export interface GlobalContextType {
+  auth: AuthContextType;
+}
+
+
 export interface NotificationProps {
   id: string;
   sender: string;
