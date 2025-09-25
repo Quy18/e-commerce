@@ -7,8 +7,6 @@ import {
   AuthContextType,
 } from "../types";
 
-const API_URL = "http://localhost:8000/api"; // chỉnh lại nếu backend khác
-
 // Hàm tiện ích để gọi API
 const request = async <T>(url: string, options: RequestInit = {}): Promise<T> => {
   const res = await fetch(url, {
@@ -34,7 +32,7 @@ const useAuth = (): AuthContextType => {
   // Đăng nhập
   const loginUser = async (data: LoginRequest) => {
     const res = await request<{ token: string; user: User }>(
-      `${API_URL}/auth/login`,
+      `${import.meta.env.VITE_API_URL}/auth/login`,
       {
         method: "POST",
         body: JSON.stringify(data),
@@ -48,7 +46,7 @@ const useAuth = (): AuthContextType => {
   // Đăng ký
   const registerUser = async (data: RegisterRequest) => {
     const res = await request<{ token: string; user: User }>(
-      `${API_URL}/auth/register`,
+      `${import.meta.env.VITE_API_URL}/auth/register`,
       {
         method: "POST",
         body: JSON.stringify(data),
