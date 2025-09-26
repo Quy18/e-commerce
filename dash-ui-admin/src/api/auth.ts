@@ -1,5 +1,6 @@
 // src/api/auth.ts
 import { useState } from "react";
+import {ApiError} from "../types";
 import {
   LoginRequest,
   RegisterRequest,
@@ -18,7 +19,11 @@ const request = async <T>(url: string, options: RequestInit = {}): Promise<T> =>
   });
 
   if (!res.ok) {
-    throw new Error(`API Error: ${res.status} ${res.statusText}`);
+    throw {
+      message: `API Error: ${res.status} ${res.statusText}`,
+      status: res.status,
+      statusText: res.statusText
+    } as ApiError;
   }
 
   return res.json();
@@ -31,16 +36,20 @@ const useAuth = (): AuthContextType => {
 
   // Đăng nhập
   const loginUser = async (data: LoginRequest) => {
-    const res = await request<{ token: string; user: User }>(
-      `${import.meta.env.VITE_API_URL}/v2/admin/login`,
-      {
-        method: "POST",
-        body: JSON.stringify(data),
-      }
-    );
-    setUser(res.user);
-    setToken(res.token);
-    localStorage.setItem("token", res.token);
+    try {
+      const res = await request<{ token: string; user: User }>(
+        `${import.meta.env.VITE_API_URL}/v2/admin/login`,
+        {
+          method: "POST",
+          body: JSON.stringify(data),
+        }
+      );
+      setUser(res.user);
+      setToken(res.token);
+      localStorage.setItem("token", res.token);
+    }catch(err){
+      throw err;
+    }
   };
 
   // Đăng ký

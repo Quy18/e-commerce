@@ -1,3 +1,10 @@
+// Kiểu dữ liệu Api
+export interface ApiError {
+  message: string;
+  status: number;
+  statusText?: string; // Dữ liệu lỗi từ server, có thể là null hoặc object
+}
+
 // 🔹 Kiểu dữ liệu User
 export interface User {
   id: number;

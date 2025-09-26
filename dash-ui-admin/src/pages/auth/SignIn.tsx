@@ -6,12 +6,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { useMounted } from "hooks/useMounted";
 import { useGlobalContext } from "context/GlobalContext";
 import { useState } from "react";
+import { ApiError } from "types";
 
 const SignIn = () => {
   const hasMounted = useMounted();
   const { loginUser } = useGlobalContext();
   const [email, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errMessage, setErrMessage] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = async () => {
@@ -22,8 +24,16 @@ const SignIn = () => {
       }
       await loginUser(data);
       navigate('/dashboard');
-    }catch(err){
-      console.log("Lỗi", err);
+    } catch (err) {
+      if (err instanceof Error) {
+      // Xử lý nếu err là Error thông thường
+      setErrMessage("Đã xảy ra lỗi. Vui lòng thử lại sau.");
+    } else if ((err as ApiError).status === 403) {
+      // Type guard để kiểm tra err có thuộc tính status
+      setErrMessage("Bạn không có quyền truy cập.");
+    } else {
+      setErrMessage("Đã xảy ra lỗi. Vui lòng thử lại sau.");
+    }
     }
   }
 
@@ -75,6 +85,7 @@ const SignIn = () => {
                 </div>
                 <div>
                   <div className="d-grid">
+                    {errMessage && <div className="alert alert-danger">{errMessage}</div>}
                     <Button variant="primary" type="button" onClick={handleLogin}>
                       Sign In
                     </Button>
