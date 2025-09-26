@@ -1,6 +1,5 @@
 //import node module libraries
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Navigate } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 
 //import routes files
 import AuthenticationLayout from "layouts/AuthenticationLayout";
@@ -50,87 +49,60 @@ const App = () => {
     {
       id: "root",
       path: "/",
-      Component: RootLayout,
+      element: <RootLayout />,
       errorElement: <NotFound />,
       children: [
         {
-          index: true, // mặc định khi path="/" 
+          index: true,
           element: <Navigate to="/auth/sign-in" replace />,
         },
         {
           id: "dashboard",
-          path: "/dashboard",
-          Component: Dashboard,
+          path: "dashboard",
+          element: <Dashboard />,
         },
         {
           id: "pages",
-          path: "/pages",
+          path: "pages",
           children: [
-            {
-              path: "profile",
-              Component: Profile,
-            },
-            {
-              path: "settings",
-              Component: Settings,
-            },
-            {
-              path: "billing",
-              Component: Billing,
-            },
-            {
-              path: "pricing",
-              Component: Pricing,
-            },
-            {
-              path: "api-demo",
-              Component: ApiDemo,
-            },
+            { path: "profile", element: <Profile /> },
+            { path: "settings", element: <Settings /> },
+            { path: "billing", element: <Billing /> },
+            { path: "pricing", element: <Pricing /> },
+            { path: "api-demo", element: <ApiDemo /> },
           ],
         },
-        {
-          id: "documentation",
-          path: "/documentation",
-          Component: Documentation,
-        },
-        {
-          id: "changelog",
-          path: "/changelog",
-          Component: ChangeLog,
-        },
-        {
-          id: "layout-vertical",
-          path: "/layout-vertical",
-          Component: LayoutVertical,
-        },
+        { path: "documentation", element: <Documentation /> },
+        { path: "changelog", element: <ChangeLog /> },
+        { path: "layout-vertical", element: <LayoutVertical /> },
         {
           id: "components",
-          path: "/components",
+          path: "components",
           children: [
-            { path: "accordions", Component: Accordion },
-            { path: "alerts", Component: Alerts },
-            { path: "badges", Component: Badges },
-            { path: "breadcrumbs", Component: Breadcrumbs },
-            { path: "button-group", Component: ButtonGroup },
-            { path: "buttons", Component: Buttons },
-            { path: "cards", Component: Cards },
-            { path: "carousels", Component: Carousels },
-            { path: "close-button", Component: CloseButtons },
-            { path: "collapse", Component: Collapses },
-            { path: "dropdowns", Component: Dropdowns },
-            { path: "list-group", Component: Listgroups },
-            { path: "modal", Component: Modals },
-            { path: "navbar", Component: Navbars },
-            { path: "navs", Component: Navs },
-            { path: "offcanvas", Component: Offcanvas },
-            { path: "overlays", Component: Overlays },
-            { path: "pagination", Component: Paginations },
-            { path: "popovers", Component: Popovers },
-            { path: "progress", Component: Progress },
-            { path: "spinners", Component: Spinners },
-            { path: "tables", Component: Tables },
-            { path: "toasts", Component: Toasts },
-            { path: "tooltips", Component: Tooltips },
+            { path: "accordions", element: <Accordion /> },
+            { path: "alerts", element: <Alerts /> },
+            { path: "badges", element: <Badges /> },
+            { path: "breadcrumbs", element: <Breadcrumbs /> },
+            { path: "button-group", element: <ButtonGroup /> },
+            { path: "buttons", element: <Buttons /> },
+            { path: "cards", element: <Cards /> },
+            { path: "carousels", element: <Carousels /> },
+            { path: "close-button", element: <CloseButtons /> },
+            { path: "collapse", element: <Collapses /> },
+            { path: "dropdowns", element: <Dropdowns /> },
+            { path: "list-group", element: <Listgroups /> },
+            { path: "modal", element: <Modals /> },
+            { path: "navbar", element: <Navbars /> },
+            { path: "navs", element: <Navs /> },
+            { path: "offcanvas", element: <Offcanvas /> },
+            { path: "overlays", element: <Overlays /> },
+            { path: "pagination", element: <Paginations /> },
+            { path: "popovers", element: <Popovers /> },
+            { path: "progress", element: <Progress /> },
+            { path: "spinners", element: <Spinners /> },
+            { path: "tables", element: <Tables /> },
+            { path: "toasts", element: <Toasts /> },
+            { path: "tooltips", element: <Tooltips /> },
           ],
         },
       ],
@@ -138,26 +110,15 @@ const App = () => {
     {
       id: "auth",
       path: "/auth",
-      // Component: AuthenticationLayout,
+      element: <AuthenticationLayout />,
       children: [
-        {
-          id: "sign-in",
-          path: "sign-in",
-          Component: SignIn,
-        },
-        {
-          id: "sign-up",
-          path: "sign-up",
-          Component: SignUp,
-        },
-        {
-          id: "forget-password",
-          path: "forget-password",
-          Component: ForgetPassword,
-        },
+        { path: "sign-in", element: <SignIn /> },
+        { path: "sign-up", element: <SignUp /> },
+        { path: "forget-password", element: <ForgetPassword /> },
       ],
     },
   ]);
+
   return <RouterProvider router={router} />;
 };
 

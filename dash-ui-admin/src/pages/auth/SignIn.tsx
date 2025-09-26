@@ -1,12 +1,32 @@
 //import node module libraries
 import { Row, Col, Card, Form, Button, Image } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 //import custom hook
 import { useMounted } from "hooks/useMounted";
+import { useGlobalContext } from "context/GlobalContext";
+import { useState } from "react";
 
 const SignIn = () => {
   const hasMounted = useMounted();
+  const { loginUser } = useGlobalContext();
+  const [email, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handleLogin = async () => {
+    try {
+      const data = {
+        email,
+        password
+      }
+      await loginUser(data);
+      navigate('/dashboard');
+    }catch(err){
+      console.log("Lỗi", err);
+    }
+  }
+
   return (
     <Row className="align-items-center justify-content-center g-0 min-vh-100">
       <Col xxl={4} lg={6} md={8} xs={12} className="py-8 py-xl-0">
@@ -24,14 +44,15 @@ const SignIn = () => {
             </div>
 
             {hasMounted && (
-              <Form>
-                <Form.Group className="mb-3" controlId="username">
+              <Form >
+                <Form.Group className="mb-3" controlId="email">
                   <Form.Label>Username or email</Form.Label>
                   <Form.Control
                     type="email"
                     name="username"
                     placeholder="Enter address here"
                     required
+                    onChange={(e) => setUsername(e.target.value)}
                   />
                 </Form.Group>
 
@@ -42,6 +63,7 @@ const SignIn = () => {
                     name="password"
                     placeholder="********"
                     required
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </Form.Group>
 
@@ -53,7 +75,7 @@ const SignIn = () => {
                 </div>
                 <div>
                   <div className="d-grid">
-                    <Button variant="primary" type="submit">
+                    <Button variant="primary" type="button" onClick={handleLogin}>
                       Sign In
                     </Button>
                   </div>

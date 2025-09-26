@@ -4,11 +4,11 @@ import useAuth from "../api/auth";
 import { AuthContextType } from "../types";
 
 // Tạo Context
-const globalContext = createContext<AuthContextType | null>(null);
+const GlobalContext = createContext<AuthContextType | null>(null);
 
 // Hook để sử dụng context
 export const useGlobalContext = (): AuthContextType => {
-  const ctx = useContext(globalContext);
+  const ctx = useContext(GlobalContext);
   if (!ctx) throw new Error("useGlobalContext must be used inside GlobalContextProvider");
   return ctx;
 };
@@ -18,9 +18,9 @@ const GlobalContextProvider = ({ children }: { children: ReactNode }) => {
   const auth = useAuth(); // hook trả về { user, token, loginUser, registerUser, logoutUser }
 
   return (
-    <globalContext.Provider value={auth}>
+    <GlobalContext.Provider value={auth}>
       {children}
-    </globalContext.Provider>
+    </GlobalContext.Provider>
   );
 };
 

@@ -32,7 +32,7 @@ const useAuth = (): AuthContextType => {
   // Đăng nhập
   const loginUser = async (data: LoginRequest) => {
     const res = await request<{ token: string; user: User }>(
-      `${import.meta.env.VITE_API_URL}/auth/login`,
+      `${import.meta.env.VITE_API_URL}/v2/admin/login`,
       {
         method: "POST",
         body: JSON.stringify(data),
