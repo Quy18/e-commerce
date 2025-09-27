@@ -61,5 +61,11 @@ Route::prefix('v1')->group(function () {
 });
 
 Route::prefix('v2')->group(function () {
-    Route::post('/admin/login', [AdminController::class,'login'])->name('admin.login');
+    Route::prefix('admin')->group(function () {
+        Route::post('/login', [AdminController::class,'login'])->name('admin.login');
+        Route::middleware('auth:sanctum')->group(function () {
+            Route::post('/logout', [AdminController::class,'logout'])->name('admin.logout');
+        });
+    });
+    
 });

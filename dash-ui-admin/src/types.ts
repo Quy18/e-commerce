@@ -2,7 +2,7 @@
 export interface ApiError {
   message: string;
   status: number;
-  statusText?: string; // Dữ liệu lỗi từ server, có thể là null hoặc object
+  statusText?: string;
 }
 
 // 🔹 Kiểu dữ liệu User
