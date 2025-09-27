@@ -1,15 +1,27 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ListGroup, Dropdown, Image } from "react-bootstrap";
 import { NotificationList } from "./NotificationList";
 import { NotificationProps } from "types";
+import { useGlobalContext } from "context/GlobalContext";
+
 
 interface MobileNotificationProps {
   data: NotificationProps[];
 }
 
-export const MobileNotifications: React.FC<MobileNotificationProps> = ({
-  data,
-}) => {
+export const MobileNotifications: React.FC<MobileNotificationProps> = ({ data, }) => {
+  const { logoutUser } = useGlobalContext();
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    try {
+      console.log("1");
+      await logoutUser();
+      console.log("2");
+      navigate("/auth/sign-in");
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <ListGroup
       as="ul"
@@ -92,7 +104,7 @@ export const MobileNotifications: React.FC<MobileNotificationProps> = ({
           <Dropdown.Item>
             <i className="fe fe-settings me-2"></i> Account Settings
           </Dropdown.Item>
-          <Dropdown.Item>
+          <Dropdown.Item onClick={handleLogout}>
             <i className="fe fe-power me-2"></i>Sign Out
           </Dropdown.Item>
         </Dropdown.Menu>

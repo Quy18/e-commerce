@@ -65,7 +65,7 @@ export interface AuthContextType {
   token: string | null;
   loginUser: (data: LoginRequest) => Promise<void>;
   registerUser: (data: RegisterRequest) => Promise<void>;
-  logoutUser: () => void;
+  logoutUser: () => Promise<void>;
 }
 
 // 🔹 Global Context (gom nhiều store)

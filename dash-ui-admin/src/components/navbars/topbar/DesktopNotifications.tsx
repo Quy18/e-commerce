@@ -1,15 +1,26 @@
 import { ListGroup, Dropdown, Image } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { NotificationProps } from "types";
 import { NotificationList } from "./NotificationList";
+import { useGlobalContext } from "context/GlobalContext";
 
 interface DesktopNotificationProps {
   data: NotificationProps[];
 }
 
-export const DesktopNotifications: React.FC<DesktopNotificationProps> = ({
-  data,
-}) => {
+export const DesktopNotifications: React.FC<DesktopNotificationProps> = ({ data, }) => {
+  const { logoutUser } = useGlobalContext();
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    try {
+      console.log("1");
+      await logoutUser();
+      console.log("2");
+      navigate("/auth/sign-in");
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <ListGroup
       as="ul"
@@ -95,7 +106,7 @@ export const DesktopNotifications: React.FC<DesktopNotificationProps> = ({
           <Dropdown.Item>
             <i className="fe fe-settings me-2"></i> Account Settings
           </Dropdown.Item>
-          <Dropdown.Item>
+          <Dropdown.Item onClick={handleLogout}>
             <i className="fe fe-power me-2"></i>Sign Out
           </Dropdown.Item>
         </Dropdown.Menu>

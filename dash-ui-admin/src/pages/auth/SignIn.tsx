@@ -26,14 +26,14 @@ const SignIn = () => {
       navigate('/dashboard');
     } catch (err) {
       if (err instanceof Error) {
-      // Xử lý nếu err là Error thông thường
-      setErrMessage("Đã xảy ra lỗi. Vui lòng thử lại sau.");
-    } else if ((err as ApiError).status === 403) {
-      // Type guard để kiểm tra err có thuộc tính status
-      setErrMessage("Bạn không có quyền truy cập.");
-    } else {
-      setErrMessage("Đã xảy ra lỗi. Vui lòng thử lại sau.");
-    }
+        // Xử lý nếu err là Error thông thường
+        setErrMessage("Đã xảy ra lỗi. Vui lòng thử lại sau.");
+      } else if ((err as ApiError).status === 403) {
+        // Type guard để kiểm tra err có thuộc tính status
+        setErrMessage("Bạn không có quyền truy cập.");
+      } else {
+        setErrMessage("Đã xảy ra lỗi. Vui lòng thử lại sau.");
+      }
     }
   }
 

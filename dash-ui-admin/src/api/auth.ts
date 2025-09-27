@@ -1,6 +1,6 @@
 // src/api/auth.ts
 import { useState } from "react";
-import {ApiError} from "../types";
+import { ApiError } from "../types";
 import {
   LoginRequest,
   RegisterRequest,
@@ -47,7 +47,7 @@ const useAuth = (): AuthContextType => {
       setUser(res.user);
       setToken(res.token);
       localStorage.setItem("token", res.token);
-    }catch(err){
+    } catch (err) {
       throw err;
     }
   };
@@ -67,10 +67,23 @@ const useAuth = (): AuthContextType => {
   };
 
   // Đăng xuất
-  const logoutUser = () => {
-    setUser(null);
-    setToken(null);
-    localStorage.removeItem("token");
+  const logoutUser = async () => {
+    try {
+      await request<{ token: string; user: User }>(
+        `${import.meta.env.VITE_API_URL}/v2/admin/logout`,
+        {
+          method: "POST",
+          headers: {
+            "Authorization" : `Bearer ${localStorage.getItem("token")}`
+          }
+        }
+      );
+      setUser(null);
+      setToken(null);
+      localStorage.removeItem("token");
+    }catch(err){
+      throw err;
+    }
   };
 
   return { user, token, loginUser, registerUser, logoutUser };
