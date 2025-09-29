@@ -1,7 +1,11 @@
 // import node module libraries
 import { Col, Row, Card } from 'react-bootstrap';
+import {
+    getAdminFromLocalStorage,
+} from "../../hepler/localStorageHelper";
 
 const AboutMe = () => {
+    const adminInfo = getAdminFromLocalStorage();
     return (
         <Col xl={6} lg={12} md={12} xs={12} className="mb-6">
             {/* card */}
@@ -20,7 +24,7 @@ const AboutMe = () => {
                         </Col>
                         <Col xs={6} className="mb-5">
                             <h6 className="text-uppercase fs-5 ls-2">Phone </h6>
-                            <p className="mb-0">+32112345689</p>
+                            <p className="mb-0">+{adminInfo?.phone}</p>
                         </Col>
                         <Col xs={6} className="mb-5">
                             <h6 className="text-uppercase fs-5 ls-2">Date of Birth </h6>
@@ -28,11 +32,11 @@ const AboutMe = () => {
                         </Col>
                         <Col xs={6}>
                             <h6 className="text-uppercase fs-5 ls-2">Email </h6>
-                            <p className="mb-0">Dashui@gmail.com</p>
+                            <p className="mb-0">{adminInfo?.email}</p>
                         </Col>
                         <Col xs={6}>
                             <h6 className="text-uppercase fs-5 ls-2">Location</h6>
-                            <p className="mb-0">Ahmedabad, India</p>
+                            <p className="mb-0">{adminInfo?.address}</p>
                         </Col>
                     </Row>
                 </Card.Body>

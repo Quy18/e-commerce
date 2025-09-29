@@ -7,6 +7,12 @@ import {
   User,
   AuthContextType,
 } from "../types";
+import {
+  saveAdminToLocalStorage,
+  removeAdminFromLocalStorage,
+  saveTokenToLocalStorage,
+  removeTokenFromLocalStorage
+} from "../hepler/localStorageHelper";
 
 // Hàm tiện ích để gọi API
 const request = async <T>(url: string, options: RequestInit = {}): Promise<T> => {
@@ -46,8 +52,8 @@ const useAuth = (): AuthContextType => {
       );
       setUser(res.user);
       setToken(res.token);
-      localStorage.setItem("token", res.token);
-      localStorage.setItem("admin", JSON.stringify(res.user));
+      saveTokenToLocalStorage(res.token);
+      saveAdminToLocalStorage(res.user);
     } catch (err) {
       throw err;
     }
@@ -81,8 +87,8 @@ const useAuth = (): AuthContextType => {
       );
       setUser(null);
       setToken(null);
-      localStorage.removeItem("token");
-      localStorage.removeItem("admin");
+      removeTokenFromLocalStorage();
+      removeAdminFromLocalStorage();
     }catch(err){
       throw err;
     }

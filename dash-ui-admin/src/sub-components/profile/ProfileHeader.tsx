@@ -1,8 +1,12 @@
 // import node module libraries
 import { Link } from "react-router-dom";
 import { Col, Row, Image } from "react-bootstrap";
+import {
+  getAdminFromLocalStorage
+} from "../../hepler/localStorageHelper";
 
 const ProfileHeader = () => {
+  const adminInfo = getAdminFromLocalStorage();
   return (
     <Row className="align-items-center">
       <Col xl={12} lg={12} md={12} xs={12}>
@@ -43,22 +47,21 @@ const ProfileHeader = () => {
               {/* text */}
               <div className="lh-1">
                 <h2 className="mb-0">
-                  Jitu Chauhan
                   <Link
-                    to="#!"
+                    to="/pages/profile"
                     className="text-decoration-none"
                     data-bs-toggle="tooltip"
                     data-placement="top"
                     title=""
                     data-original-title="Beginner"
-                  ></Link>
+                  >{adminInfo?.name}</Link>
                 </h2>
-                <p className="mb-0 d-block">@imjituchauhan</p>
+                <p className="mb-0 d-block">{adminInfo?.email}</p>
               </div>
             </div>
             <div>
               <Link
-                to="#"
+                to="/pages/settings"
                 className="btn btn-outline-primary d-none d-md-block"
               >
                 Edit Profile
@@ -74,12 +77,12 @@ const ProfileHeader = () => {
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="#">
-                Project
+                Products
               </Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="#">
-                Files
+                Purchase
               </Link>
             </li>
             <li className="nav-item">

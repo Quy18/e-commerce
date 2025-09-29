@@ -48,7 +48,7 @@ const Sidebar: React.FC<SidebarProps> = ({ showMenu, toggleMenu }) => {
     <Fragment>
       <SimpleBar style={{ maxHeight: "100vh" }}>
         <div className="nav-scroller">
-          <Link to="/" className="navbar-brand">
+          <Link to="/dashboard" className="navbar-brand">
             <Image src="/images/brand/logo/logo.svg" alt="" />
           </Link>
         </div>
