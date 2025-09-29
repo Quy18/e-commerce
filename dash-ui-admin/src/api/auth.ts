@@ -47,6 +47,7 @@ const useAuth = (): AuthContextType => {
       setUser(res.user);
       setToken(res.token);
       localStorage.setItem("token", res.token);
+      localStorage.setItem("admin", JSON.stringify(res.user));
     } catch (err) {
       throw err;
     }
@@ -81,6 +82,7 @@ const useAuth = (): AuthContextType => {
       setUser(null);
       setToken(null);
       localStorage.removeItem("token");
+      localStorage.removeItem("admin");
     }catch(err){
       throw err;
     }

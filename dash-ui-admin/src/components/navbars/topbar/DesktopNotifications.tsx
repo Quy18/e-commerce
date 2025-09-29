@@ -13,9 +13,7 @@ export const DesktopNotifications: React.FC<DesktopNotificationProps> = ({ data,
   const navigate = useNavigate();
   const handleLogout = async () => {
     try {
-      console.log("1");
       await logoutUser();
-      console.log("2");
       navigate("/auth/sign-in");
     } catch (err) {
       console.log(err);
