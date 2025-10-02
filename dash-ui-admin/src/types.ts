@@ -1,10 +1,29 @@
-// Kiểu dữ liệu Api
+// =========================================== Kiểu dữ liệu Api ======================================
 export interface ApiError {
   message: string;
   status: number;
   statusText?: string;
 }
 
+export interface AuthContextType {
+  user: User | null;
+  token: string | null;
+  loginUser: (data: LoginRequest) => Promise<void>;
+  // registerUser: (data: RegisterRequest) => Promise<void>;
+  logoutUser: () => Promise<void>;
+}
+
+export interface UserApiType {
+  user: User | null;
+  updateUser: () => Promise<void>;
+}
+
+// 🔹 Global Context (gom nhiều store)
+export interface GlobalContextType {
+  auth: AuthContextType;
+}
+
+// ================================ Kiểu dữ liệu cho các đối tượng =========================================
 // 🔹 Kiểu dữ liệu User
 export interface User {
   id: number;
@@ -60,20 +79,6 @@ export interface Order {
   status: "pending" | "paid" | "shipped" | "completed" | "cancelled";
   createdAt: string;
 }
-
-export interface AuthContextType {
-  user: User | null;
-  token: string | null;
-  loginUser: (data: LoginRequest) => Promise<void>;
-  registerUser: (data: RegisterRequest) => Promise<void>;
-  logoutUser: () => Promise<void>;
-}
-
-// 🔹 Global Context (gom nhiều store)
-export interface GlobalContextType {
-  auth: AuthContextType;
-}
-
 
 export interface NotificationProps {
   id: string;

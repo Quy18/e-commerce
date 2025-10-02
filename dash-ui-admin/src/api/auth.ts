@@ -13,27 +13,7 @@ import {
   saveTokenToLocalStorage,
   removeTokenFromLocalStorage
 } from "../hepler/localStorageHelper";
-
-// Hàm tiện ích để gọi API
-const request = async <T>(url: string, options: RequestInit = {}): Promise<T> => {
-  const res = await fetch(url, {
-    headers: {
-      "Content-Type": "application/json",
-      ...(options.headers || {}),
-    },
-    ...options,
-  });
-
-  if (!res.ok) {
-    throw {
-      message: `API Error: ${res.status} ${res.statusText}`,
-      status: res.status,
-      statusText: res.statusText
-    } as ApiError;
-  }
-
-  return res.json();
-};
+import { request} from "../hepler/apiHelper";
 
 // ---- Hook useAuth ----
 const useAuth = (): AuthContextType => {
@@ -60,18 +40,18 @@ const useAuth = (): AuthContextType => {
   };
 
   // Đăng ký
-  const registerUser = async (data: RegisterRequest) => {
-    const res = await request<{ token: string; user: User }>(
-      `${import.meta.env.VITE_API_URL}/auth/register`,
-      {
-        method: "POST",
-        body: JSON.stringify(data),
-      }
-    );
-    setUser(res.user);
-    setToken(res.token);
-    localStorage.setItem("token", res.token);
-  };
+  // const registerUser = async (data: RegisterRequest) => {
+  //   const res = await request<{ token: string; user: User }>(
+  //     `${import.meta.env.VITE_API_URL}/auth/register`,
+  //     {
+  //       method: "POST",
+  //       body: JSON.stringify(data),
+  //     }
+  //   );
+  //   setUser(res.user);
+  //   setToken(res.token);
+  //   localStorage.setItem("token", res.token);
+  // };
 
   // Đăng xuất
   const logoutUser = async () => {
@@ -94,7 +74,12 @@ const useAuth = (): AuthContextType => {
     }
   };
 
-  return { user, token, loginUser, registerUser, logoutUser };
+  return { 
+    user, 
+    token, 
+    loginUser, 
+    // registerUser, 
+    logoutUser };
 };
 
 export default useAuth;

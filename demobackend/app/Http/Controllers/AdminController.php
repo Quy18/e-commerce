@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -53,5 +54,41 @@ class AdminController extends Controller
         return response()->json([
             'message'=> 'Logout successfully',
         ],200);
+    }
+
+    public function updateProfile(Request $request){
+        $user = auth()->user();
+
+        if(!$user){
+            return response()->json([
+                'message'=> 'User not found.',
+            ],404);
+        }
+
+        $validatedData = $request->validate([
+            'name' => 'sometimes|string|max:255',
+            'email' => 'sometimes|email|unique:users,email,' . $user->id,
+            'address' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:15',
+            'image' => 'nullable|image|max:10240',
+        ]);
+
+        if ($request->hasFile('image')) {
+            // Nếu user đã có ảnh cũ thì xóa ảnh đó
+            if ($user->image && Storage::disk('public')->exists($user->image)) {
+                Storage::disk('public')->delete($user->image);
+            }
+            // Lưu file ảnh vào storage/app/public/avatars
+            $path = $request->file('image')->store('avatars', 'public');
+            $validatedData['image'] = $path;
+        }
+
+        $user->update($validatedData);
+
+        return response()->json([
+            'message' => 'User updated successfully',
+            'user' => $user,
+            'imageurl' => $user->image ? url('storage/'.$user->image) : null,
+        ]);
     }
 }

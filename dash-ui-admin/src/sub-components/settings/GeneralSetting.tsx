@@ -2,11 +2,12 @@
 import { Col, Row, Form, Card, Button, Image } from "react-bootstrap";
 
 // import widget as custom components
-import { FormSelect, DropFiles } from "widgets";
+import { FormSelect } from "widgets";
 
 // import hooks
 import { useMounted } from "hooks/useMounted";
-
+import { useRef } from "react";
+import { DropFiles, DropFilesRef } from "../../widgets/dropfiles/DropFiles";
 const GeneralSetting = () => {
   const hasMounted = useMounted();
   const countryOptions = [
@@ -14,7 +15,10 @@ const GeneralSetting = () => {
     { value: "US", label: "US" },
     { value: "UK", label: "UK" },
     { value: "UAE", label: "UAE" },
+    { value: "Vietnam", label: "VN" },
   ];
+
+  const dropzoneRef = useRef<DropFilesRef>(null);
 
   return (
     <Row className="mb-8">
@@ -46,27 +50,12 @@ const GeneralSetting = () => {
                       alt=""
                     />
                   </div>
-                  <div>
-                    <Button
-                      variant="outline-white"
-                      className="me-2"
-                      type="submit"
-                    >
-                      Change{" "}
-                    </Button>
-                    <Button variant="outline-white" type="submit">
-                      Remove{" "}
-                    </Button>
-                  </div>
                 </div>
               </Col>
             </Row>
             {/* col */}
             <Row className="mb-8">
-              <Col md={3} className="mb-3 mb-md-0">
-                {/* heading */}
-                <h5 className="mb-0">Cover photo</h5>
-              </Col>
+              <Col md={3} className="mb-3 mb-md-0"></Col>
               <Col md={9}>
                 {/* dropzone input */}
                 <div>
@@ -75,11 +64,23 @@ const GeneralSetting = () => {
                       action="#"
                       className="dropzone mb-3 py-10 border-dashed"
                     >
-                      <DropFiles />
+                      <DropFiles ref={dropzoneRef} />
                     </Form>
                   )}
-                  <Button variant="outline-white" type="submit">
-                    Change{" "}
+                </div>
+                <div className="mt-3">
+                  <Button
+                    variant="primary"
+                    onClick={() => dropzoneRef.current?.openDialog()}
+                  >
+                    Change
+                  </Button>
+                  <Button
+                    variant="danger"
+                    className="ms-2"
+                    onClick={() => dropzoneRef.current?.clearFiles()}
+                  >
+                    Remove
                   </Button>
                 </div>
               </Col>
@@ -163,7 +164,7 @@ const GeneralSetting = () => {
                   {/* Address Line One */}
                   <Row className="mb-3">
                     <Form.Label className="col-sm-4" htmlFor="addressLine">
-                      Address line 1
+                      Address line
                     </Form.Label>
                     <Col md={8} xs={12}>
                       <Form.Control
@@ -174,37 +175,8 @@ const GeneralSetting = () => {
                       />
                     </Col>
                   </Row>
-
-                  {/* Address Line Two */}
-                  <Row className="mb-3">
-                    <Form.Label className="col-sm-4" htmlFor="addressLineTwo">
-                      Address line 2
-                    </Form.Label>
-                    <Col md={8} xs={12}>
-                      <Form.Control
-                        type="text"
-                        placeholder="Enter Address line 2"
-                        id="addressLineTwo"
-                        required
-                      />
-                    </Col>
-                  </Row>
-
                   {/* Zip code */}
                   <Row className="align-items-center">
-                    <Form.Label className="col-sm-4" htmlFor="zipcode">
-                      Zip code
-                    </Form.Label>
-
-                    <Col md={8} xs={12}>
-                      <Form.Control
-                        type="text"
-                        placeholder="Enter Zip code"
-                        id="zipcode"
-                        required
-                      />
-                    </Col>
-
                     <Col md={{ offset: 4, span: 8 }} xs={12} className="mt-4">
                       <Button variant="primary" type="submit">
                         Save Changes
@@ -217,7 +189,7 @@ const GeneralSetting = () => {
           </Card.Body>
         </Card>
       </Col>
-    </Row>
+    </Row >
   );
 };
 

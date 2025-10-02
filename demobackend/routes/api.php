@@ -65,6 +65,7 @@ Route::prefix('v2')->group(function () {
         Route::post('/login', [AdminController::class,'login'])->name('admin.login');
         Route::middleware('auth:sanctum')->group(function () {
             Route::post('/logout', [AdminController::class,'logout'])->name('admin.logout');
+            Route::post('/update', [AdminController::class,'updateProfile'])->name('admin.update.profile');
         });
     });
     
