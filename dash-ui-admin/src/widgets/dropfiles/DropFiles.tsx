@@ -47,7 +47,7 @@ export const DropFiles = forwardRef<DropFilesRef>((_, ref) => {
     noClick: true,   // không click vùng dropzone
     multiple: false,
     onDrop: (acceptedFiles) => {
-      const selectedFile = {
+      const selectedFile: FileType = {
         file: acceptedFiles[0],                          // giữ file gốc
         preview: URL.createObjectURL(acceptedFiles[0]),  // tạo preview
       };

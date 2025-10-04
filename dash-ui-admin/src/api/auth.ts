@@ -1,9 +1,7 @@
 // src/api/auth.ts
 import { useState } from "react";
-import { ApiError } from "../types";
 import {
   LoginRequest,
-  RegisterRequest,
   User,
   AuthContextType,
 } from "../types";

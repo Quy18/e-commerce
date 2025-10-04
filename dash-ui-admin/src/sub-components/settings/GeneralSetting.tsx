@@ -8,9 +8,11 @@ import { FormSelect } from "widgets";
 import { useMounted } from "hooks/useMounted";
 import { useRef, useState } from "react";
 import { DropFiles, DropFilesRef } from "../../widgets/dropfiles/DropFiles";
-import {User, FileType} from "../../types";
+import useAdmin from "../../api/admin";
+import { User } from "types";
 
 const GeneralSetting = () => {
+  const { updateUser } = useAdmin();
   const hasMounted = useMounted();
   const countryOptions = [
     { value: "India", label: "India" },
@@ -19,6 +21,8 @@ const GeneralSetting = () => {
     { value: "UAE", label: "UAE" },
     { value: "Vietnam", label: "VN" },
   ];
+
+  let adminParse:User | null = null;
 
   const dropzoneRef = useRef<DropFilesRef>(null);
 
@@ -32,21 +36,38 @@ const GeneralSetting = () => {
   const [location, setLocation] = useState("");
   const [address, setAddress] = useState("");
 
-  const fulladdress = `${address}${", " + location}`.trim();
+  const fulladdress = `${address}${location}`.trim();
 
-  const [image, setImage] = useState<FileType>();
-
-  const dataUpdate: User = {
-    name: fullname,
-    email: email,
-    phone: phone,
-    address: fulladdress,
-    image: dropzoneRef.current?.getFile()?.file,
-  }
-
-  const handleUpdate = (e: React.FormEvent) => {
+  const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(dataUpdate);
+
+    const file = dropzoneRef.current?.getFile();
+    const formData = new FormData();
+    if (fullname != "") {
+      formData.append("name", fullname);
+    }
+    if (email != "") {
+      formData.append("email", email);
+    }
+    if (phone != "") {
+      formData.append("phone", phone);
+    }
+    if (fulladdress != "") {
+      formData.append("address", fulladdress);
+    }
+    if (file?.file) {
+      formData.append("image", file?.file);
+    }
+    try {
+      await updateUser(formData);
+      console.log("Update thành công");
+    } catch (err) {
+      console.error("Update thất bại:", err);
+    }
+  }
+  const adminLocal = localStorage.getItem("admin");
+  if (adminLocal) {
+    adminParse = JSON.parse(adminLocal);
   }
   return (
     <Row className="mb-8">
@@ -72,11 +93,21 @@ const GeneralSetting = () => {
               <Col md={9}>
                 <div className="d-flex align-items-center">
                   <div className="me-3">
-                    <Image
-                      src="/images/avatar/avatar-5.jpg"
-                      className="rounded-circle avatar avatar-lg"
-                      alt=""
-                    />
+                    {(adminParse != null) 
+                      ?
+                      // http://localhost/projectdemo/e-commerce/demobackend/public/storage/avatars/TduvzW4EbEus5X7Wf6LA7bt0Htle3qxsstYYT697.png
+                      <Image
+                        src={"http://localhost/projectdemo/e-commerce/demobackend/public/storage/"+adminParse.image}
+                        className="rounded-circle avatar avatar-lg"
+                        alt=""
+                      />
+                      :
+                      <Image
+                        src="/images/avatar/avatar-5.jpg"
+                        className="rounded-circle avatar avatar-lg"
+                        alt=""
+                      />
+                    }
                   </div>
                 </div>
               </Col>
@@ -131,7 +162,7 @@ const GeneralSetting = () => {
                         type="text"
                         placeholder="First name"
                         id="firstName"
-                        onChange={(e) => {setFirstName(e.target.value);}}
+                        onChange={(e) => { setFirstName(e.target.value); }}
                       />
                     </Col>
                     <Col sm={4}>
@@ -139,7 +170,7 @@ const GeneralSetting = () => {
                         type="text"
                         placeholder="Last name"
                         id="lastName"
-                        onChange={(e) => {setLastName(e.target.value);}}
+                        onChange={(e) => { setLastName(e.target.value); }}
                       />
                     </Col>
                   </Row>
@@ -156,7 +187,7 @@ const GeneralSetting = () => {
                         type="email"
                         placeholder="Email"
                         id="email"
-                        onChange={(e) => {setEmail(e.target.value);}}
+                        onChange={(e) => { setEmail(e.target.value); }}
                       />
                     </Col>
                   </Row>
@@ -170,7 +201,7 @@ const GeneralSetting = () => {
                         type="text"
                         placeholder="Enter Phone"
                         id="phone"
-                        onChange={(e) => {setPhone(e.target.value);}}
+                        onChange={(e) => { setPhone(e.target.value); }}
                       />
                     </Col>
                   </Row>
@@ -186,7 +217,7 @@ const GeneralSetting = () => {
                         placeholder="Select Country"
                         id="country"
                         options={countryOptions}
-                        onChange={(e) => {setLocation(e.target.value);}}
+                        onChange={(e) => { setLocation(", " + e.target.value); }}
                       />
                     </Col>
                   </Row>
@@ -201,7 +232,7 @@ const GeneralSetting = () => {
                         type="text"
                         placeholder="Enter Address line 1"
                         id="addressLine"
-                        onChange={(e) => {setAddress(e.target.value);}}
+                        onChange={(e) => { setAddress(e.target.value); }}
                         required
                       />
                     </Col>

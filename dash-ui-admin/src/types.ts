@@ -13,9 +13,15 @@ export interface AuthContextType {
   logoutUser: () => Promise<void>;
 }
 
+export interface UserResponeUpdate {
+  message: string;
+  user: User;
+  imageurl: string;
+}
+
 export interface UserApiType {
   user: User | null;
-  updateUser: () => Promise<void>;
+  updateUser: (data: FormData) => Promise<void>;
 }
 
 // 🔹 Global Context (gom nhiều store)
