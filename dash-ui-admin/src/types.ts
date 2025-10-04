@@ -26,11 +26,12 @@ export interface GlobalContextType {
 // ================================ Kiểu dữ liệu cho các đối tượng =========================================
 // 🔹 Kiểu dữ liệu User
 export interface User {
-  id: number;
+  id?: number;
   name: string;
   email: string;
   address: string;
   phone: string;
+  image?: File | null;
 }
 
 // 🔹 Auth
@@ -79,6 +80,12 @@ export interface Order {
   status: "pending" | "paid" | "shipped" | "completed" | "cancelled";
   createdAt: string;
 }
+
+// Kiểu dữ liệu cho file ảnh avatar
+export type FileType = {
+  file: File;
+  preview: string;
+};
 
 export interface NotificationProps {
   id: string;

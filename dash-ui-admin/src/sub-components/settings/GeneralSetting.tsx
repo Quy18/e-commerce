@@ -6,8 +6,10 @@ import { FormSelect } from "widgets";
 
 // import hooks
 import { useMounted } from "hooks/useMounted";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { DropFiles, DropFilesRef } from "../../widgets/dropfiles/DropFiles";
+import {User, FileType} from "../../types";
+
 const GeneralSetting = () => {
   const hasMounted = useMounted();
   const countryOptions = [
@@ -20,6 +22,32 @@ const GeneralSetting = () => {
 
   const dropzoneRef = useRef<DropFilesRef>(null);
 
+  const [firstname, setFirstName] = useState("");
+  const [lastname, setLastName] = useState("");
+  const fullname = `${firstname} ${lastname}`.trim();
+
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+
+  const [location, setLocation] = useState("");
+  const [address, setAddress] = useState("");
+
+  const fulladdress = `${address}${", " + location}`.trim();
+
+  const [image, setImage] = useState<FileType>();
+
+  const dataUpdate: User = {
+    name: fullname,
+    email: email,
+    phone: phone,
+    address: fulladdress,
+    image: dropzoneRef.current?.getFile()?.file,
+  }
+
+  const handleUpdate = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log(dataUpdate);
+  }
   return (
     <Row className="mb-8">
       <Col xl={3} lg={4} md={12} xs={12}>
@@ -78,7 +106,7 @@ const GeneralSetting = () => {
                   <Button
                     variant="danger"
                     className="ms-2"
-                    onClick={() => dropzoneRef.current?.clearFiles()}
+                    onClick={() => dropzoneRef.current?.clearFile()}
                   >
                     Remove
                   </Button>
@@ -102,8 +130,8 @@ const GeneralSetting = () => {
                       <Form.Control
                         type="text"
                         placeholder="First name"
-                        id="fullName"
-                        required
+                        id="firstName"
+                        onChange={(e) => {setFirstName(e.target.value);}}
                       />
                     </Col>
                     <Col sm={4}>
@@ -111,7 +139,7 @@ const GeneralSetting = () => {
                         type="text"
                         placeholder="Last name"
                         id="lastName"
-                        required
+                        onChange={(e) => {setLastName(e.target.value);}}
                       />
                     </Col>
                   </Row>
@@ -128,7 +156,7 @@ const GeneralSetting = () => {
                         type="email"
                         placeholder="Email"
                         id="email"
-                        required
+                        onChange={(e) => {setEmail(e.target.value);}}
                       />
                     </Col>
                   </Row>
@@ -142,6 +170,7 @@ const GeneralSetting = () => {
                         type="text"
                         placeholder="Enter Phone"
                         id="phone"
+                        onChange={(e) => {setPhone(e.target.value);}}
                       />
                     </Col>
                   </Row>
@@ -157,6 +186,7 @@ const GeneralSetting = () => {
                         placeholder="Select Country"
                         id="country"
                         options={countryOptions}
+                        onChange={(e) => {setLocation(e.target.value);}}
                       />
                     </Col>
                   </Row>
@@ -171,6 +201,7 @@ const GeneralSetting = () => {
                         type="text"
                         placeholder="Enter Address line 1"
                         id="addressLine"
+                        onChange={(e) => {setAddress(e.target.value);}}
                         required
                       />
                     </Col>
@@ -178,7 +209,7 @@ const GeneralSetting = () => {
                   {/* Zip code */}
                   <Row className="align-items-center">
                     <Col md={{ offset: 4, span: 8 }} xs={12} className="mt-4">
-                      <Button variant="primary" type="submit">
+                      <Button variant="primary" type="submit" onClick={handleUpdate}>
                         Save Changes
                       </Button>
                     </Col>

@@ -56,7 +56,7 @@ const useAuth = (): AuthContextType => {
   // Đăng xuất
   const logoutUser = async () => {
     try {
-      await request<{ token: string; user: User }>(
+      await request(
         `${import.meta.env.VITE_API_URL}/v2/admin/logout`,
         {
           method: "POST",

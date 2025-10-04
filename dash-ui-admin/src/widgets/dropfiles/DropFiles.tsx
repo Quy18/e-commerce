@@ -1,6 +1,7 @@
 import { useEffect, useState, forwardRef, useImperativeHandle } from "react";
 import { useDropzone } from "react-dropzone";
 import { Image } from "react-bootstrap";
+import { FileType } from "../../types";
 
 const thumbsContainer = {
   display: "flex",
@@ -31,55 +32,43 @@ const img = {
   height: "100%",
 };
 
-type FileType = {
-  name: string;
-  size: number;
-  type: string;
-  preview: string;
-};
 
 export type DropFilesRef = {
+  getFile: () => FileType | null;
   openDialog: () => void;
-  clearFiles: () => void;
+  clearFile: () => void;
 };
 
 export const DropFiles = forwardRef<DropFilesRef>((_, ref) => {
-  const [files, setFiles] = useState<FileType[]>([]);
+  const [file, setFile] = useState<FileType | null>(null);
 
   const { getRootProps, getInputProps, open } = useDropzone({
     accept: { "image/*": [".jpeg", ".jpg", ".png"] },
     noClick: true,   // không click vùng dropzone
+    multiple: false,
     onDrop: (acceptedFiles) => {
-      setFiles(
-        acceptedFiles.map((file) =>
-          Object.assign(file, {
-            preview: URL.createObjectURL(file)
-          })
-        )
-      );
+      const selectedFile = {
+        file: acceptedFiles[0],                          // giữ file gốc
+        preview: URL.createObjectURL(acceptedFiles[0]),  // tạo preview
+      };
+      setFile(selectedFile);
     },
   });
 
   // expose methods ra ngoài
   useImperativeHandle(ref, () => ({
+    getFile: () => file,
     openDialog: () => open(),
-    clearFiles: () => setFiles([]),
+    clearFile: () => setFile(null),
   }));
 
-  const thumbs = files.map((file) => (
-    <div style={thumb} key={file.name}>
-      <div style={thumbInner}>
-        <Image src={file.preview} style={img} alt={file.name} />
-      </div>
-    </div>
-  ));
-
-  useEffect(
-    () => () => {
-      files.forEach((file) => URL.revokeObjectURL(file.preview));
-    }, 
-    [files]
-  );
+  useEffect(() => {
+    return () => {
+      if (file) {
+        URL.revokeObjectURL(file.preview);
+      }
+    };
+  }, [file]);
 
   return (
     <section className="container">
@@ -87,7 +76,15 @@ export const DropFiles = forwardRef<DropFilesRef>((_, ref) => {
         <input {...getInputProps()} />
         <p className="text-center">Drag 'n' drop some files here</p>
       </div>
-      <aside style={thumbsContainer}>{thumbs}</aside>
+      <aside style={thumbsContainer}>
+        {file && (
+          <div style={thumb} key={file.file.name}>
+            <div style={thumbInner}>
+              <Image src={file.preview} style={img} alt={file.file.name} />
+            </div>
+          </div>
+        )}
+      </aside>
     </section>
   );
 });
