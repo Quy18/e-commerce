@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { NotificationProps } from "types";
 import { NotificationList } from "./NotificationList";
 import { useGlobalContext } from "context/GlobalContext";
+import { getAdminFromLocalStorage } from "hepler/localStorageHelper";
 
 interface DesktopNotificationProps {
   data: NotificationProps[];
@@ -19,6 +20,7 @@ export const DesktopNotifications: React.FC<DesktopNotificationProps> = ({ data,
       console.log(err);
     }
   };
+  const adminInfo = getAdminFromLocalStorage();
   return (
     <ListGroup
       as="ul"
@@ -85,14 +87,14 @@ export const DesktopNotifications: React.FC<DesktopNotificationProps> = ({ data,
         >
           <Dropdown.Item as="div" className="px-4 pb-0 pt-2" bsPrefix=" ">
             <div className="lh-1 ">
-              <h5 className="mb-1"> John E. Grainger</h5>
-              <Link to="#" className="text-inherit fs-6">
+              <h5 className="mb-1"> {adminInfo?.name}</h5>
+              <Link to="/pages/profile" className="text-inherit fs-6">
                 View my profile
               </Link>
             </div>
             <div className=" dropdown-divider mt-3 mb-2"></div>
           </Dropdown.Item>
-          <Dropdown.Item eventKey="2">
+          <Dropdown.Item as={Link} to="/pages/settings" eventKey="2">
             <i className="fe fe-user me-2"></i> Edit Profile
           </Dropdown.Item>
           <Dropdown.Item eventKey="3">

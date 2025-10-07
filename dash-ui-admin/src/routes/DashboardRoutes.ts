@@ -154,10 +154,4 @@ export const DashboardMenu: DashboardMenuProps[] = [
     icon: "git-pull-request",
     link: "/changelog",
   },
-  {
-    id: uuid(),
-    title: "Free Download",
-    icon: "download",
-    link: "https://dashui.codescandy.com/free-reactjs-admin-dashboard-template.html",
-  },
 ];
