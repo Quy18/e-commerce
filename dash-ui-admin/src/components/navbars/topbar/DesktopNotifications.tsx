@@ -72,11 +72,20 @@ export const DesktopNotifications: React.FC<DesktopNotificationProps> = ({ data,
           id="dropdownUser"
         >
           <div className="avatar avatar-md avatar-indicators avatar-online">
-            <Image
-              alt="avatar"
-              src="/images/avatar/avatar-1.jpg"
-              className="rounded-circle"
-            />
+            {(adminInfo)
+              ?
+              <Image
+                alt="avatar"
+                src={import.meta.env.VITE_URL_IMAGE + adminInfo.image}
+                className="rounded-circle"
+              />
+              :
+              <Image
+                alt="avatar"
+                src="/images/avatar/avatar-1.jpg"
+                className="rounded-circle"
+              />
+            }
           </div>
         </Dropdown.Toggle>
         <Dropdown.Menu

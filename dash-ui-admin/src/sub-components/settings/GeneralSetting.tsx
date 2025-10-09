@@ -10,6 +10,7 @@ import { useRef, useState } from "react";
 import { DropFiles, DropFilesRef } from "../../widgets/dropfiles/DropFiles";
 import useAdmin from "../../api/admin";
 import { User } from "types";
+import { getAdminFromLocalStorage} from "../../hepler/localStorageHelper";
 
 const GeneralSetting = () => {
   const { updateUser } = useAdmin();
@@ -22,7 +23,7 @@ const GeneralSetting = () => {
     { value: "Vietnam", label: "VN" },
   ];
 
-  let adminParse:User | null = null;
+  const adminLocal = getAdminFromLocalStorage();
 
   const dropzoneRef = useRef<DropFilesRef>(null);
 
@@ -60,15 +61,11 @@ const GeneralSetting = () => {
     }
     try {
       await updateUser(formData);
-      console.log("Update thành công");
     } catch (err) {
       console.error("Update thất bại:", err);
     }
   }
-  const adminLocal = localStorage.getItem("admin");
-  if (adminLocal) {
-    adminParse = JSON.parse(adminLocal);
-  }
+
   return (
     <Row className="mb-8">
       <Col xl={3} lg={4} md={12} xs={12}>
@@ -93,11 +90,10 @@ const GeneralSetting = () => {
               <Col md={9}>
                 <div className="d-flex align-items-center">
                   <div className="me-3">
-                    {(adminParse != null) 
+                    {(adminLocal != null) 
                       ?
-                      // http://localhost/projectdemo/e-commerce/demobackend/public/storage/avatars/TduvzW4EbEus5X7Wf6LA7bt0Htle3qxsstYYT697.png
                       <Image
-                        src={"http://localhost/projectdemo/e-commerce/demobackend/public/storage/"+adminParse.image}
+                        src={import.meta.env.VITE_URL_IMAGE + adminLocal.image}
                         className="rounded-circle avatar avatar-lg"
                         alt=""
                       />
