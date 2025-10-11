@@ -25,7 +25,7 @@ export const StatRightTopIcon: React.FC<StatRightProps> = ({ info }) => {
           <h1 className="fw-bold">{info.value}</h1>
           <p
             className="mb-0"
-            dangerouslySetInnerHTML={{ __html: info.statInfo }}
+            // dangerouslySetInnerHTML={{ __html: info.statInfo }}
           ></p>
         </div>
       </Card.Body>

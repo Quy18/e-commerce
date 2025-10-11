@@ -1,5 +1,5 @@
 // import node module libraries
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Container, Col, Row } from "react-bootstrap";
 
@@ -11,8 +11,21 @@ import { ActiveProjects, Teams, TasksPerformance } from "sub-components";
 
 // import required data files
 import ProjectsStatsData from "data/dashboard/ProjectsStatsData";
+import useStat from "api/stat";
 
 const Dashboard = () => {
+  // const { getStats } = useStat();
+  // useEffect(() => {
+  //   const fetchStats = async () => {
+  //     try {
+  //       const statData = await getStats();
+  //       console.log(statData);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
+  //   fetchStats();
+  // });
   return (
     <Fragment>
       <div className="bg-primary pt-10 pb-21"></div>
@@ -32,13 +45,7 @@ const Dashboard = () => {
               </div>
             </div>
           </Col>
-          {ProjectsStatsData.map((item, index) => {
-            return (
-              <Col xl={3} lg={6} md={12} xs={12} className="mt-6" key={index}>
-                <StatRightTopIcon info={item} />
-              </Col>
-            );
-          })}
+          <ProjectsStatsData />
         </Row>
 
         <ActiveProjects />

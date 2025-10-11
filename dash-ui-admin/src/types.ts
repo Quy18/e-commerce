@@ -29,6 +29,18 @@ export interface GlobalContextType {
   auth: AuthContextType;
 }
 
+export interface StatType {
+  // message: string,
+  users: number,
+  products: number,
+  orders: number,
+  coupons: number,
+}
+
+export interface StatApiType {
+  getStats: () => Promise<StatType>;
+}
+
 // ================================ Kiểu dữ liệu cho các đối tượng =========================================
 // 🔹 Kiểu dữ liệu User
 export interface User {
@@ -152,9 +164,9 @@ export interface ActiveProjectsDataProps {
 export interface ProjectsStatsProps {
   id: number;
   title: string;
-  value: number | string;
+  value?: number | string;
   icon: React.ReactNode;
-  statInfo: string;
+  // statInfo: string;
 }
 
 export interface ProjectContriProps {

@@ -9,7 +9,6 @@ import { useMounted } from "hooks/useMounted";
 import { useRef, useState } from "react";
 import { DropFiles, DropFilesRef } from "../../widgets/dropfiles/DropFiles";
 import useAdmin from "../../api/admin";
-import { User } from "types";
 import { getAdminFromLocalStorage} from "../../hepler/localStorageHelper";
 
 const GeneralSetting = () => {
