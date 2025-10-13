@@ -50,16 +50,13 @@ export const DashboardMenu: DashboardMenuProps[] = [
   },
   {
     id: uuid(),
-    title: "Authentication",
-    icon: "lock",
+    title: "Statistical",
+    icon: "bar-chart",
     children: [
-      { id: uuid(), link: "/auth/sign-in", name: "Sign In" },
-      { id: uuid(), link: "/auth/sign-up", name: "Sign Up" },
-      {
-        id: uuid(),
-        link: "/auth/forget-password",
-        name: "Forget Password",
-      },
+      { id: uuid(), link: "/stats/users", name: "Users" },
+      { id: uuid(), link: "/stats/products", name: "Products" },
+      { id: uuid(), link: "/stats/orders",  name: "Orders" },
+      { id: uuid(), link: "/stats/coupons",  name: "Coupons" },
     ],
   },
   {

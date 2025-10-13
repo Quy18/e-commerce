@@ -4,9 +4,10 @@ import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom"
 //import routes files
 import AuthenticationLayout from "layouts/AuthenticationLayout";
 import RootLayout from "layouts/RootLayout";
-import SignIn from "./pages/auth/SignIn";
-import ForgetPassword from "pages/auth/ForgetPassword";
-import SignUp from "./pages/auth/SignUp";
+import UsersStats from "./pages/stats/UsersStats";
+import ProductsStats from "./pages/stats/ProductsStats";
+import OrdersStats from "./pages/stats/OrdersStats";
+import CouponsStats from "./pages/stats/CouponsStats";
 import Dashboard from "pages/dashboard/Index";
 import Billing from "pages/dashboard/pages/Billing";
 import Pricing from "pages/dashboard/pages/Pricing";
@@ -108,13 +109,14 @@ const App = () => {
       ],
     },
     {
-      id: "auth",
-      path: "/auth",
+      id: "statistical",
+      path: "/stats",
       element: <AuthenticationLayout />,
       children: [
-        { path: "sign-in", element: <SignIn /> },
-        { path: "sign-up", element: <SignUp /> },
-        { path: "forget-password", element: <ForgetPassword /> },
+        { path: "users", element: <UsersStats /> },
+        { path: "products", element: <ProductsStats /> },
+        { path: "orders", element: <OrdersStats /> },
+        { path: "coupons", element: <CouponsStats /> },
       ],
     },
   ]);

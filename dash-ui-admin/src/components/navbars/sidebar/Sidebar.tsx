@@ -29,9 +29,8 @@ const Sidebar: React.FC<SidebarProps> = ({ showMenu, toggleMenu }) => {
     return (
       <Link
         to={item.link}
-        className={`nav-link ${
-          location.pathname === item.link ? "active" : ""
-        }`}
+        className={`nav-link ${location.pathname === item.link ? "active" : ""
+          }`}
         onClick={() => (isMobile ? toggleMenu() : showMenu)}
       >
         {item.name}
@@ -259,13 +258,11 @@ const Sidebar: React.FC<SidebarProps> = ({ showMenu, toggleMenu }) => {
                     {/* menu item without any childern items like Documentation and Changelog items*/}
                     <Link
                       to={menu.link ?? "#"}
-                      className={`nav-link ${
-                        location.pathname === menu.link ? "active" : ""
-                      } ${
-                        menu.title === "Free Download"
+                      className={`nav-link ${location.pathname === menu.link ? "active" : ""
+                        } ${menu.title === "Free Download"
                           ? "bg-primary text-white"
                           : ""
-                      }`}
+                        }`}
                     >
                       {typeof menu.icon === "string" ? (
                         <i className={`nav-icon fe fe-${menu.icon} me-2`}></i>

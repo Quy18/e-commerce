@@ -1,31 +1,14 @@
 // import node module libraries
-import { Fragment, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Fragment } from "react";
 import { Container, Col, Row } from "react-bootstrap";
-
-// import widget/custom components
-import { StatRightTopIcon } from "widgets";
 
 // import sub components
 import { ActiveProjects, Teams, TasksPerformance } from "sub-components";
 
 // import required data files
-import ProjectsStatsData from "data/dashboard/ProjectsStatsData";
-import useStat from "api/stat";
+import ProjectsStatsData from "components/stats/ProjectsStatsData";
 
 const Dashboard = () => {
-  // const { getStats } = useStat();
-  // useEffect(() => {
-  //   const fetchStats = async () => {
-  //     try {
-  //       const statData = await getStats();
-  //       console.log(statData);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-  //   fetchStats();
-  // });
   return (
     <Fragment>
       <div className="bg-primary pt-10 pb-21"></div>
@@ -36,11 +19,6 @@ const Dashboard = () => {
               <div className="d-flex justify-content-between align-items-center">
                 <div className="mb-2 mb-lg-0">
                   <h3 className="mb-0  text-white">Projects</h3>
-                </div>
-                <div>
-                  <Link to="#" className="btn btn-white">
-                    Create New Project
-                  </Link>
                 </div>
               </div>
             </div>
