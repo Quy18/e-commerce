@@ -40,7 +40,47 @@ export interface StatType {
 export interface StatApiType {
   getStats: () => Promise<StatType>;
 }
+//Một User đơn lẻ
+export interface UserItemType {
+  id: number,
+  name: string,
+  email: string,
+  image: string,
+  role: string,
+  status: string,
+  created_at: string
+};
 
+// Dữ liệu phân trang chứa mảng user
+export interface UserPaginationType {
+  current_page: number;
+  data: UserItemType[];
+  first_page_url: string;
+  from: number;
+  last_page: number;
+  last_page_url: string;
+  links: {
+    url: string | null;
+    label: string;
+    active: boolean;
+  }[];
+  next_page_url: string | null;
+  path: string;
+  per_page: number;
+  prev_page_url: string | null;
+  to: number;
+  total: number;
+}
+
+// Toàn bộ response trả về từ API
+export interface UserManageType {
+  message: string;
+  data: UserPaginationType;
+}
+
+export interface UsersManageApiType {
+  getAllUser: () => Promise<UserManageType>;
+}
 // ================================ Kiểu dữ liệu cho các đối tượng =========================================
 // 🔹 Kiểu dữ liệu User
 export interface User {

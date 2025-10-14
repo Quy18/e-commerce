@@ -44,6 +44,9 @@ import Spinners from "bootstrap-components/Spinners";
 import Toasts from "bootstrap-components/Toasts";
 import Tooltips from "bootstrap-components/Tooltips";
 import Tables from "bootstrap-components/Tables";
+import SignIn from "pages/auth/SignIn";
+import SignUp from "pages/auth/SignUp";
+import ForgetPassword from "pages/auth/ForgetPassword";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -106,17 +109,27 @@ const App = () => {
             { path: "tooltips", element: <Tooltips /> },
           ],
         },
+        {
+          id: "statistical",
+          path: "/stats",
+          element: <AuthenticationLayout />,
+          children: [
+            { path: "users", element: <UsersStats /> },
+            { path: "products", element: <ProductsStats /> },
+            { path: "orders", element: <OrdersStats /> },
+            { path: "coupons", element: <CouponsStats /> },
+          ],
+        },
       ],
     },
     {
-      id: "statistical",
-      path: "/stats",
+      id: "auth",
+      path: "/auth",
       element: <AuthenticationLayout />,
       children: [
-        { path: "users", element: <UsersStats /> },
-        { path: "products", element: <ProductsStats /> },
-        { path: "orders", element: <OrdersStats /> },
-        { path: "coupons", element: <CouponsStats /> },
+        { path: "sign-in", element: <SignIn /> },
+        { path: "sign-up", element: <SignUp /> },
+        { path: "forget-password", element: <ForgetPassword /> },
       ],
     },
   ]);

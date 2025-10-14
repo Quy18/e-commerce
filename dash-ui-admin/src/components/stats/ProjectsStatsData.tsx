@@ -22,7 +22,7 @@ const ProjectsStats = () => {
       }
     };
     fetchStats();
-  });
+  },[]);
   if (!stat) return <div></div>;
   const statArr = [
     {

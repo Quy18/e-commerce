@@ -1,47 +1,35 @@
-import React from "react";
+import useUsersManage from "api/usersmanage";
+import React, { useEffect, useState } from "react";
 import { Fragment } from "react";
 import { Container, Card, Table, Button, Dropdown, Badge, Image, } from "react-bootstrap";
 import { PencilSquare, Trash, ThreeDotsVertical, PersonCheck, PersonX, } from "react-bootstrap-icons";
+import '../../styles/_tableFix.scss';
+import { UserItemType } from "types";
 
 const UsersStats: React.FC = () => {
-    // Mock data hiển thị UI
-    const users = [
-        {
-            id: 1,
-            name: "Mai Ngọc Quý",
-            email: "quymai@example.com",
-            role: "Admin",
-            status: "Active",
-            createdAt: "2024-03-21",
-            avatar: "https://via.placeholder.com/48",
-        },
-        {
-            id: 2,
-            name: "Nguyễn Văn A",
-            email: "vana@example.com",
-            role: "User",
-            status: "Pending",
-            createdAt: "2024-06-11",
-            avatar: "https://via.placeholder.com/48",
-        },
-        {
-            id: 3,
-            name: "Trần Thị B",
-            email: "tranb@example.com",
-            role: "Moderator",
-            status: "Banned",
-            createdAt: "2024-01-09",
-            avatar: "https://via.placeholder.com/48",
-        },
-    ];
+    const [users, setUser] = useState<UserItemType[]>([]);
+    const { getAllUser } = useUsersManage();
+
+    useEffect(() => {
+        const fetch = async () => {
+            try {
+                const allUsers = await getAllUser();
+                setUser(allUsers.data.data);
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        fetch();
+    }, [])
+    if (users.length === 0) return <div></div>;
 
     const renderStatusBadge = (status: string) => {
         switch (status) {
-            case "Active":
+            case "active":
                 return <Badge bg="success">Active</Badge>;
-            case "Pending":
+            case "pending":
                 return <Badge bg="warning" text="dark">Pending</Badge>;
-            case "Banned":
+            case "banned":
                 return <Badge bg="danger">Banned</Badge>;
             default:
                 return <Badge bg="secondary">Unknown</Badge>;
@@ -49,7 +37,7 @@ const UsersStats: React.FC = () => {
     };
     return (
         <Fragment>
-            <Container fluid className="mt-n22 px-6">
+            <Container fluid className="p-6">
                 <h3 className="fw-bold mb-4">User Management</h3>
 
                 <Card className="shadow-sm border-0 rounded-4">
@@ -61,11 +49,12 @@ const UsersStats: React.FC = () => {
                     </Card.Header>
 
                     <Card.Body className="p-0">
-                        <Table hover responsive className="align-middle mb-0">
+                        <Table hover responsive className="align-middle mb-0 table-responsive">
                             <thead className="table-light text-muted small">
                                 <tr>
-                                    <th>#</th>
+                                    <th>ID</th>
                                     <th>User</th>
+                                    <th>Name</th>
                                     <th>Email</th>
                                     <th>Role</th>
                                     <th>Status</th>
@@ -74,21 +63,34 @@ const UsersStats: React.FC = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {users.map((user, idx) => (
-                                    <tr key={user.id}>
-                                        <td>{idx + 1}</td>
+                                {users.map((user, index) => (
+                                    <tr key={index}>
+                                        <td>{index + 1}</td>
                                         <td>
                                             <div className="d-flex align-items-center gap-2">
-                                                <Image
-                                                    src={user.avatar}
-                                                    roundedCircle
-                                                    width={40}
-                                                    height={40}
-                                                    alt="avatar"
-                                                />
-                                                <span className="fw-semibold">{user.name}</span>
+                                                {
+                                                    user.image
+                                                        ?
+                                                        <Image
+                                                            src={import.meta.env.VITE_URL_IMAGE + user.image}
+                                                            roundedCircle
+                                                            width={40}
+                                                            height={40}
+                                                            alt="avatar"
+                                                        />
+                                                        :
+                                                        <Image
+                                                            src="/images/avatar/avatar-5.jpg"
+                                                            roundedCircle
+                                                            width={40}
+                                                            height={40}
+                                                            alt="avatar"
+                                                        />
+                                                }
+
                                             </div>
                                         </td>
+                                        <td><span className="fw-semibold">{user.name}</span></td>
                                         <td>{user.email}</td>
                                         <td>
                                             <Badge bg="info" text="dark">
@@ -96,7 +98,7 @@ const UsersStats: React.FC = () => {
                                             </Badge>
                                         </td>
                                         <td>{renderStatusBadge(user.status)}</td>
-                                        <td>{user.createdAt}</td>
+                                        <td>{new Date(user.created_at).toLocaleDateString()}</td>
                                         <td className="text-end">
                                             <Dropdown align="end">
                                                 <Dropdown.Toggle
@@ -114,7 +116,7 @@ const UsersStats: React.FC = () => {
                                                     <Dropdown.Item>
                                                         <Trash className="me-2" /> Delete
                                                     </Dropdown.Item>
-                                                    {user.status === "Banned" ? (
+                                                    {user.status === "banned" ? (
                                                         <Dropdown.Item>
                                                             <PersonCheck className="me-2" /> Unban
                                                         </Dropdown.Item>

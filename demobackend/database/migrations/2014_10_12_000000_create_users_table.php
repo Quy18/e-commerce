@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('address')->nullable();
             $table->string('phone')->nullable();
+            $table->enum('status',['active','banned','pending'])->default('active');
             $table->enum('role',['admin', 'user'])->default('user');
             $table->string('image')->nullable();
             $table->rememberToken();

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\StatsController;
+use App\Http\Controllers\UserManagementController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController as ApiUserController;
@@ -65,13 +66,16 @@ Route::prefix('v2')->group(function () {
     Route::prefix('admin')->group(function () {
         //login admin
         Route::post('/login', [AdminController::class,'login'])->name('admin.login');
-        Route::middleware('auth:sanctum')->group(function () {
+        Route::middleware(['auth:sanctum','admin'])->group(function () {
             //update profile admin
             Route::post('/logout', [AdminController::class,'logout'])->name('admin.logout');
             Route::post('/update', [AdminController::class,'updateProfile'])->name('admin.update.profile');
 
             //stats manage
             Route::get('/stats', [StatsController::class,'getStats'])->name('admin.stats');
+
+            // Users management
+            Route::get('/users',[UserManagementController::class,'getAllUser'])->name('admin.users');
         });
     });
     

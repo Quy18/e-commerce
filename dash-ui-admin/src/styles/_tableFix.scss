@@ -1,0 +1,31 @@
+// Fix dropdown bị che trong table responsive
+.table-responsive {
+  overflow: visible !important;
+
+  // Áp dụng cho dropdown nằm trong bảng
+  .dropdown-menu {
+    z-index: 2000 !important;
+  }
+
+  // Cải thiện thẩm mỹ tổng thể
+  table {
+    border-radius: 0.75rem;
+    overflow: hidden;
+
+    thead {
+      background-color: #f8f9fa;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      color: #6c757d;
+    }
+
+    tbody tr {
+      transition: background-color 0.15s ease;
+
+      &:hover {
+        background-color: #f1f3f5;
+      }
+    }
+  }
+}
