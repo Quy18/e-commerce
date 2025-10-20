@@ -1,10 +1,6 @@
 import { Briefcase, ListTask, People, Bullseye } from "react-bootstrap-icons";
-import { StatType } from "types";
-import useStat from "api/stat";
-import { useEffect, useState } from "react";
 import { Col } from "react-bootstrap";
 import { StatRightTopIcon } from "widgets";
-import Settings from "pages/dashboard/pages/Settings";
 import { useNavigate } from "react-router";
 import { useGlobalContext } from "context/GlobalContext";
 
