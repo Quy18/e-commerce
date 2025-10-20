@@ -27,6 +27,7 @@ export interface UserApiType {
 // 🔹 Global Context (gom nhiều store)
 export interface GlobalContextType {
   auth: AuthContextType;
+  stat: StatType | null;
 }
 
 export interface StatType {

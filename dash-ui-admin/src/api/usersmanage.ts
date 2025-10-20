@@ -19,6 +19,7 @@ const useUsersManage = ():UsersManageApiType => {
         }
     }
     return {
+        
         getAllUser
     }
 }

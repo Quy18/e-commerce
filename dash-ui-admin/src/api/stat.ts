@@ -1,4 +1,5 @@
 import { request } from "hepler/apiHelper";
+import { useState } from "react";
 import { StatApiType, StatType } from "types";
 
 const useStat = ():StatApiType => {

@@ -6,23 +6,12 @@ import { Col } from "react-bootstrap";
 import { StatRightTopIcon } from "widgets";
 import Settings from "pages/dashboard/pages/Settings";
 import { useNavigate } from "react-router";
+import { useGlobalContext } from "context/GlobalContext";
 
 const ProjectsStats = () => {
-  const { getStats } = useStat();
-  const [stat, setStat] = useState<StatType | null>(null);
-  const [selectedId, setSelectedId] = useState<Number | null>(null);
+  const {stat} = useGlobalContext();
   const navigate = useNavigate();
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const statData = await getStats();
-        setStat(statData);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchStats();
-  },[]);
+
   if (!stat) return <div></div>;
   const statArr = [
     {

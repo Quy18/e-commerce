@@ -10,7 +10,7 @@ import { ApiError } from "types";
 
 const SignIn = () => {
   const hasMounted = useMounted();
-  const { loginUser } = useGlobalContext();
+  const { auth } = useGlobalContext();
   const [email, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errMessage, setErrMessage] = useState("");
@@ -22,7 +22,7 @@ const SignIn = () => {
         email,
         password
       }
-      await loginUser(data);
+      await auth.loginUser(data);
       navigate('/dashboard');
     } catch (err) {
       if (err instanceof Error) {
