@@ -10,11 +10,11 @@ interface MobileNotificationProps {
 }
 
 export const MobileNotifications: React.FC<MobileNotificationProps> = ({ data, }) => {
-  const { logoutUser } = useGlobalContext();
+  const { auth } = useGlobalContext();
   const navigate = useNavigate();
   const handleLogout = async () => {
     try {
-      await logoutUser();
+      await auth.logoutUser();
       navigate("/auth/sign-in");
     } catch (err) {
       console.log(err);
