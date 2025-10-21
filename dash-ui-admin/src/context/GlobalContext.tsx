@@ -2,8 +2,8 @@
 import { createContext, useContext, ReactNode, useEffect, useState } from "react";
 import useAuth from "../api/auth";
 import { GlobalContextType, StatType } from "../types";
-import useUsersManage from "api/usersmanage";
 import useStat from "api/stat";
+import echo from "utils/echo";
 
 // Tạo Context
 const GlobalContext = createContext<GlobalContextType | null>(null);
@@ -22,6 +22,7 @@ const GlobalContextProvider = ({ children }: { children: ReactNode }) => {
   const [stat, setStat] = useState<StatType | null>(null);
 
   useEffect(() => {
+    // fetch lần đầu
     const fetchStat = async () => {
       try{
         const res = await getStats();
@@ -29,8 +30,18 @@ const GlobalContextProvider = ({ children }: { children: ReactNode }) => {
       }catch(err){
         console.error("Failed to load stats:", err);
       }
-    }
+    };
     fetchStat();
+
+    // Lắng nghe realtime
+    echo.channel("stats").listen(".StatsUpdated", (e: any) => {
+      // e.stats được viết giống trong StatsUpdated bên backend
+      setStat(e.stats);
+    });
+
+    return () => {
+      echo.leave("stats");
+    };
   },[]);
   
   return (

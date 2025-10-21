@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\StatsUpdated;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Services\StatsService;
 
 class UserController extends Controller
 {
@@ -14,7 +16,7 @@ class UserController extends Controller
     {
         return response()->json(['message' => 'Welcome to the API']);
     }
-    public function store(Request $request)
+    public function store(Request $request, StatsService $statsService)
     {
         // Validate the request data
         $validatedData = $request->validate([
@@ -33,6 +35,10 @@ class UserController extends Controller
             'address' => $validatedData['address'],
             'phone' => $validatedData['phone'],
         ]);
+
+        //Gửi sự kiện realtime
+        $stats = $statsService->getStats();
+        broadcast(new StatsUpdated($stats));
 
         $token = $user->createToken('auth_token')->plainTextToken;
         // Return a success response
@@ -109,6 +115,8 @@ class UserController extends Controller
 
     public function update(Request $request)
     {
+        /** @var \App\Models\User $user */
+        
         // Find the user by ID
         $user = auth()->user();
 
