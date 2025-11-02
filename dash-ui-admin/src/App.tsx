@@ -112,7 +112,7 @@ const App = () => {
         {
           id: "statistical",
           path: "/stats",
-          element: <AuthenticationLayout />,
+          // element: <AuthenticationLayout />,
           children: [
             { path: "users", element: <UsersStats /> },
             { path: "products", element: <ProductsStats /> },

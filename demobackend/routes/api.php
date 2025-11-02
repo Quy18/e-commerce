@@ -10,6 +10,9 @@ use App\Http\Controllers\Api\CategoryController as ApiCategoryController;
 use App\Http\Controllers\Api\ProductController as ApiProductController;
 use App\Http\Controllers\Api\CartController as ApiCartController;
 use App\Http\Controllers\Api\OrderController as ApiOrderController;
+use App\Http\Controllers\CouponManagementController;
+use App\Http\Controllers\OrderManagementController;
+use App\Http\Controllers\ProductManagementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,7 +78,17 @@ Route::prefix('v2')->group(function () {
             Route::get('/stats', [StatsController::class,'getStats'])->name('admin.stats');
 
             // Users management
-            Route::get('/users',[UserManagementController::class,'getAllUser'])->name('admin.users');
+            Route::get('/users', [UserManagementController::class,'getAllUser'])->name('admin.users');
+
+            // Products management
+            Route::get('/products', [ProductManagementController::class, 'getAllProduct'])->name('admin.products');
+
+            // Orders management
+            Route::get('/orders', [OrderManagementController::class, 'getAllOrder'])->name('admin.orders');
+
+            // Coupons management
+            Route::get('/coupons', [CouponManagementController::class, 'getAllCoupon'])->name('admin.coupons');
+            
         });
     });
     

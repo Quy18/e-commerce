@@ -72,15 +72,135 @@ export interface UserPaginationType {
   to: number;
   total: number;
 }
-
-// Toàn bộ response trả về từ API
 export interface UserManageType {
   message: string;
   data: UserPaginationType;
 }
-
 export interface UsersManageApiType {
   getAllUser: () => Promise<UserManageType>;
+}
+
+
+// Dữ liệu phân trang mảng Product
+export interface ProductPaginationType {
+  current_page: number;
+  data: ProductItemType[];
+  first_page_url: string;
+  from: number;
+  last_page: number;
+  last_page_url: string;
+  links: {
+    url: string | null;
+    label: string;
+    active: boolean;
+  }[];
+  next_page_url: string | null;
+  path: string;
+  per_page: number;
+  prev_page_url: string | null;
+  to: number;
+  total: number;
+}
+export interface ProductItemType {
+  id: number,
+  name: string,
+  price: number,
+  stock: number,
+  image: string,
+  description: string,
+  created_at: string,
+}
+export interface ProductsManageType {
+  message: string,
+  data: ProductPaginationType,
+}
+
+// Dữ liệu api Product
+export interface ProductsManageApiType {
+  getAllProduct: () => Promise<ProductsManageType>,
+}
+
+
+
+// Dữ liệu phân trang mảng Order
+export interface OrderPaginationType {
+  current_page: number;
+  data: OrderItemType[];
+  first_page_url: string;
+  from: number;
+  last_page: number;
+  last_page_url: string;
+  links: {
+    url: string | null;
+    label: string;
+    active: boolean;
+  }[];
+  next_page_url: string | null;
+  path: string;
+  per_page: number;
+  prev_page_url: string | null;
+  to: number;
+  total: number;
+}
+export interface OrderItemType {
+  id: number,
+  status: string,
+  total_payment: number,
+  payment_status: string,
+  created_at: string,
+}
+export interface OrdersManageType {
+  message: string,
+  data: OrderPaginationType,
+}
+
+// Dữ liệu api Order
+export interface OrdersManageApiType {
+  getAllOrder: () => Promise<OrdersManageType>,
+}
+
+
+// Dữ liệu phân trang mảng Coupon
+export interface CouponPaginationType {
+  current_page: number;
+  data: CouponItemType[];
+  first_page_url: string;
+  from: number;
+  last_page: number;
+  last_page_url: string;
+  links: {
+    url: string | null;
+    label: string;
+    active: boolean;
+  }[];
+  next_page_url: string | null;
+  path: string;
+  per_page: number;
+  prev_page_url: string | null;
+  to: number;
+  total: number;
+}
+export interface CouponItemType {
+  id: number,
+  code: string,
+  type: string,
+  value: number,
+  min_order_value: number,
+  usage_limit: number,
+  used_count: number,
+  start_date: string,
+  end_date: string,
+  is_active: number,
+  created_at: string,
+}
+export interface CouponsManageType {
+  message: string,
+  data: CouponPaginationType,
+}
+
+// Dữ liệu api Coupon
+export interface CouponsManageApiType {
+  getAllCoupon: () => Promise<CouponsManageType>,
 }
 // ================================ Kiểu dữ liệu cho các đối tượng =========================================
 // 🔹 Kiểu dữ liệu User
